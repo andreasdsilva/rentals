@@ -34,6 +34,8 @@ public class Car implements Serializable{
 	private String color;
 	private Date createdAt;
 	
+	public Car() {}
+	
 	public Car(String name, String description, boolean available, String licensePlate, Brand brand, Category category,
 			String color, Date createdAt) {
 		super();

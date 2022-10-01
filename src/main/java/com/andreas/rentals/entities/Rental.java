@@ -36,6 +36,8 @@ public class Rental implements Serializable{
 	private Date createdAt;
 	private Date updatedAt;
 	
+	public Rental() {}
+	
 	public Rental(Car car, Customer customer, Date startDate, Date endDate, Integer total, Date createdAt, Date updatedAt) {
 		super();
 		this.car = car;

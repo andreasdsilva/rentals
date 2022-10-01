@@ -23,6 +23,8 @@ public class Specification implements Serializable{
 	private String description;
 	private Date createdAt;
 	
+	public Specification() {}
+	
 	public Specification(String name, String description, Date createdAt) {
 		super();
 		this.name = name;

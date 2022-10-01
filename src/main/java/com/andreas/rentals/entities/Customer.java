@@ -28,6 +28,8 @@ public class Customer implements Serializable{
 	private Date createdAt;
 	private Date updatedAt;
 	
+	public Customer() {}
+	
 	public Customer(String name, Date birthDate, String email, Integer driverLicense, String address,
 			Integer phoneNumber, Date createdAt, Date updatedAt) {
 		super();

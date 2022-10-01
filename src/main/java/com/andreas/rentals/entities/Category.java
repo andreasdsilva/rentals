@@ -23,6 +23,8 @@ public class Category implements Serializable{
 	private String description;
 	private Date createdAt;
 	
+	public Category() {}
+	
 	public Category(String name, String description, Date createdAt) {
 		super();
 		this.name = name;

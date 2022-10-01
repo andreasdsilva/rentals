@@ -29,6 +29,8 @@ public class CarSpecification implements Serializable{
 	@JoinColumn(name = "specification_id")
 	private Specification specification;
 	
+	public CarSpecification() {}
+	
 	public CarSpecification(Car car, Specification specification) {
 		super();
 		this.car = car;

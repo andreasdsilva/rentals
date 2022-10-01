@@ -22,6 +22,8 @@ public class Brand implements Serializable{
 	private String name;
 	private Date createdAt;
 	
+	public Brand() {}
+	
 	public Brand(String name, Date createdAt) {
 		super();
 		this.name = name;

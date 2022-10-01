@@ -28,6 +28,8 @@ public class CarImage implements Serializable{
 	private String image; //path
 	private Date createdAt;
 	
+	public CarImage() {}
+	
 	public CarImage(Car car, String image, Date createdAt) {
 		super();
 		this.car = car;
