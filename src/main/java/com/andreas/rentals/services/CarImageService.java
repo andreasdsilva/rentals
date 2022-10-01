@@ -13,14 +13,14 @@ import com.andreas.rentals.repositories.CarImageRepository;
 public class CarImageService {
 
 		@Autowired
-		private CarImageRepository CarImageRepository;
+		private CarImageRepository carImageRepository;
 		
 		public List<CarImage> findAll() {
-			return CarImageRepository.findAll();
+			return carImageRepository.findAll();
 		}
 		
 		public CarImage findById( Long id ) {
-			Optional<CarImage> obj = CarImageRepository.findById(id);
+			Optional<CarImage> obj = carImageRepository.findById(id);
 			return obj.get();
 		}
 }

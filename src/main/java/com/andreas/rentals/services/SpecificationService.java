@@ -13,14 +13,14 @@ import com.andreas.rentals.repositories.SpecificationRepository;
 public class SpecificationService {
 
 		@Autowired
-		private SpecificationRepository SpecificationRepository;
+		private SpecificationRepository specificationRepository;
 		
 		public List<Specification> findAll() {
-			return SpecificationRepository.findAll();
+			return specificationRepository.findAll();
 		}
 		
 		public Specification findById( Long id ) {
-			Optional<Specification> obj = SpecificationRepository.findById(id);
+			Optional<Specification> obj = specificationRepository.findById(id);
 			return obj.get();
 		}
 }

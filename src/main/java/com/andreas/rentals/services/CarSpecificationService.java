@@ -13,14 +13,14 @@ import com.andreas.rentals.repositories.CarSpecificationRepository;
 public class CarSpecificationService {
 
 		@Autowired
-		private CarSpecificationRepository CarSpecificationRepository;
+		private CarSpecificationRepository carSpecificationRepository;
 		
 		public List<CarSpecification> findAll() {
-			return CarSpecificationRepository.findAll();
+			return carSpecificationRepository.findAll();
 		}
 		
 		public CarSpecification findById( Long id ) {
-			Optional<CarSpecification> obj = CarSpecificationRepository.findById(id);
+			Optional<CarSpecification> obj = carSpecificationRepository.findById(id);
 			return obj.get();
 		}
 }

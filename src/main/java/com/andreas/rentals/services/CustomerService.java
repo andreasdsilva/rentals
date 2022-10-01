@@ -13,14 +13,14 @@ import com.andreas.rentals.repositories.CustomerRepository;
 public class CustomerService {
 
 		@Autowired
-		private CustomerRepository CustomerRepository;
+		private CustomerRepository customerRepository;
 		
 		public List<Customer> findAll() {
-			return CustomerRepository.findAll();
+			return customerRepository.findAll();
 		}
 		
 		public Customer findById( Long id ) {
-			Optional<Customer> obj = CustomerRepository.findById(id);
+			Optional<Customer> obj = customerRepository.findById(id);
 			return obj.get();
 		}
 }
