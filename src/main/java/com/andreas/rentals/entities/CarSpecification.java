@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -26,7 +26,8 @@ public class CarSpecification implements Serializable{
 	@JoinColumn(name = "car_id")
 	private Car car;
 	
-	@OneToOne
+	@OneToMany
+	@JoinColumn(name = "specification_id")
 	private Set<Specification> specifications = new HashSet<>();
 
 	public CarSpecification(Car car, Set<Specification> specifications) {
