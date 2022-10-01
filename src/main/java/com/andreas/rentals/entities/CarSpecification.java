@@ -1,8 +1,6 @@
 package com.andreas.rentals.entities;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,11 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "cars_specifications")
+@Table(name = "car_specifications")
 public class CarSpecification implements Serializable{
 	private static final long serialVersionUID = 1L;
 
@@ -26,14 +24,13 @@ public class CarSpecification implements Serializable{
 	@JoinColumn(name = "car_id")
 	private Car car;
 	
-	@OneToMany
-	@JoinColumn(name = "specification_id")
-	private Set<Specification> specifications = new HashSet<>();
-
-	public CarSpecification(Car car, Set<Specification> specifications) {
+	@OneToOne
+	private Specification specification;
+	
+	public CarSpecification(Car car, Specification specification) {
 		super();
 		this.car = car;
-		this.specifications = specifications;
+		this.specification = specification;
 	}
 
 	public Car getCar() {
@@ -44,17 +41,15 @@ public class CarSpecification implements Serializable{
 		this.car = car;
 	}
 
-	public Set<Specification> getSpecifications() {
-		return specifications;
+	public Specification getSpecification() {
+		return specification;
 	}
 
-	public void setSpecifications(Set<Specification> specifications) {
-		this.specifications = specifications;
+	public void setSpecification(Specification specification) {
+		this.specification = specification;
 	}
 
 	public Long getId() {
 		return id;
-	}
-	
-	
+	}		
 }
