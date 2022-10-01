@@ -26,6 +26,7 @@ public class CarSpecification implements Serializable{
 	private Car car;
 	
 	@OneToOne
+	@JoinColumn(name = "specification_id")
 	private Specification specification;
 	
 	public CarSpecification(Car car, Specification specification) {
