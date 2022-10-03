@@ -11,19 +11,19 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.andreas.rentals.entities.User;
 import com.andreas.rentals.exceptions.CredentialsException;
 import com.andreas.rentals.services.UserService;
 import com.andreas.rentals.util.ApplicationContext;
+import com.andreas.rentals.util.BeanUtil;
 
 @Component
 public class LoginPane extends JPanel {
 	private static final long serialVersionUID = 1L;
-
-	@Autowired
+	
+    //@Autowired
 	private UserService userService;
 
 	private MainFrame main;
@@ -34,37 +34,10 @@ public class LoginPane extends JPanel {
 	private JButton loginButton;
 	private JButton registerButton;
 	private JLabel invalidCredentials;
-	
-	
-	public LoginPane() {
-		setLayout(new GridLayout(7, 1, 0, 10));
-		
-		JLabel lblNewLabel = new JLabel("Login");
-		add(lblNewLabel);
-		
-		loginTextField = new JTextField();
-		add(loginTextField);
-		loginTextField.setColumns(10);
-		
-		JLabel lblNewLabel_1 = new JLabel("Password");
-		add(lblNewLabel_1);
-		
-		passwordField = new JPasswordField();
-		add(passwordField);
-		
-		JLabel lblNewLabel_2 = new JLabel("Invalid login or password!");
-		lblNewLabel_2.setForeground(Color.RED);
-		add(lblNewLabel_2);
-		
-		JButton btnNewButton_2 = new JButton("Login");
-		add(btnNewButton_2);
-		
-		JButton btnNewButton_1 = new JButton("Register");
-		add(btnNewButton_1);}
 
 	public LoginPane( MainFrame frame ) {
 		
-		//userService = UserService.getInstance();
+		userService = (UserService) BeanUtil.getBeanByName("userService");
 		
 		main = (MainFrame) frame;
 		
@@ -115,11 +88,14 @@ public class LoginPane extends JPanel {
         		throw new CredentialsException( "All fields must be filled!" );
         	
             User user = userService.login( loginTextField.getText(), passwordField.getPassword().toString() );
-
+            System.out.println(user.getLogin() + "-" + user.getPassword() + " perform login method" );
             registerButton.setForeground( Color.BLACK );
+            
             ApplicationContext.getInstance().setLoggedUser( user );
-//            main.getWelcomePane().initCards();
-//            main.setPanel( main.getWelcomePane().getRootPanel() );
+            
+            main.getHomPane();
+            main.setPanel( main.getHomPane().getRootPanel() );
+            
             passwordField.setText("");
             loginTextField.setText("");
         }

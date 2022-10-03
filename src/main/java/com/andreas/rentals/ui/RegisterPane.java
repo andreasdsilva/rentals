@@ -18,11 +18,13 @@ import org.springframework.stereotype.Component;
 
 import com.andreas.rentals.entities.User;
 import com.andreas.rentals.services.UserService;
+import com.andreas.rentals.util.BeanUtil;
 
 @Component
 public class RegisterPane extends JPanel {
+	private static final long serialVersionUID = 1L;
 
-	@Autowired
+	;;@Autowired
 	private UserService userService;
 	
 	private MainFrame main;
@@ -71,11 +73,11 @@ public class RegisterPane extends JPanel {
 		
 		JButton btnNewButton = new JButton("Already have an account");
 		add(btnNewButton);
-
 	}
 
 	
 	public RegisterPane( MainFrame frame ) {
+		this.userService = (UserService) BeanUtil.getBeanByName("userService");
 		main = (MainFrame) frame;
 		
 		setLayout(new GridLayout(6, 2, 10, 15));
@@ -113,6 +115,7 @@ public class RegisterPane extends JPanel {
 		matchPasswordLabel.setForeground(Color.RED);
 		matchPasswordLabel.setVisible(false);
 		add(matchPasswordLabel);
+		matchPasswordLabel.setVisible(false);
 		
 		JButton registerButton = new JButton("Register");
 		add(registerButton);
@@ -161,6 +164,7 @@ public class RegisterPane extends JPanel {
 	}
 	
 	private void goToHome() {
+		main.getHomPane();
 		main.setPanel( main.getHomPane().getRootPanel() );
 	}
 	

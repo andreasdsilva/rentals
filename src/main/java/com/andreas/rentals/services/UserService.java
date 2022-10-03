@@ -5,26 +5,17 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.andreas.rentals.entities.User;
 import com.andreas.rentals.exceptions.CredentialsException;
 import com.andreas.rentals.repositories.UserRepository;
+import com.andreas.rentals.util.BeanUtil;
 
 @Service
 public class UserService {
 
-		@Autowired
-		private static UserRepository userRepository;
-		
-		public UserService(UserRepository userRepository) {
-		}
-
-		public static UserService getInstance() {
-			return new UserService(userRepository);
-		}
+		private static UserRepository userRepository = (UserRepository) BeanUtil.getBeanByName("userRepository");
 		
 		public List<User> findAll() {
 			return userRepository.findAll();
@@ -48,7 +39,7 @@ public class UserService {
 		}
 		
 		public void createUser( User user ) {
-			user.setPassword( hashPassword(user.getPassword()));
+			user.setPassword( user.getPassword() );
 			userRepository.save(user);
 		}
 		
@@ -58,11 +49,15 @@ public class UserService {
 		
 		public User login( String login, String password ) throws CredentialsException {
 			User user = findByLogin( login );
-
-			if( user.getLogin().equals(login) && user.getPassword().equals( hashPassword(password) ))
-				return user;
-			
-			throw new CredentialsException( "Invalid credentials!" );
+			System.out.println(user.getLogin() + "-" + user.getPassword() + " login method" );
+			if( user.getLogin().equals(login) && user.getPassword().equals( password ))
+			{
+				return user;				
+			}
+			else
+			{
+				throw new CredentialsException("Invalid password");
+			}
 		}
 		
 	    private String hashPassword( String password ) {

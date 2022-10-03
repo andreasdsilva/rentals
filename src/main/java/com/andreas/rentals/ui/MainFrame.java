@@ -28,7 +28,7 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo( null );
     }
 
-    public void resetPanel(){
+    public void resetPanel() {
         setPanel( loginPane.getRootPanel() );
     }
 
@@ -49,6 +49,10 @@ public class MainFrame extends JFrame {
 
 	public HomePane getHomPane() {		
 		return homePane;
+	}
+	
+	public void init() {
+		this.setVisible(true);
 	}
 
 }
