@@ -1,19 +1,30 @@
 package com.andreas.rentals.services;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.andreas.rentals.entities.User;
+import com.andreas.rentals.exceptions.CredentialsException;
 import com.andreas.rentals.repositories.UserRepository;
 
 @Service
 public class UserService {
 
 		@Autowired
-		private UserRepository userRepository;
+		private static UserRepository userRepository;
+		
+		public UserService(UserRepository userRepository) {
+		}
+
+		public static UserService getInstance() {
+			return new UserService(userRepository);
+		}
 		
 		public List<User> findAll() {
 			return userRepository.findAll();
@@ -24,11 +35,52 @@ public class UserService {
 			return obj.get();
 		}
 		
+		public User findByLogin( String login ) throws CredentialsException {
+			List<User> users = findAll();
+			
+			for( User user : users ) 
+			{
+				if( user.getLogin().equals(login) )
+					return user;
+			}
+			
+			throw new CredentialsException( "User not found!" );
+		}
+		
 		public void createUser( User user ) {
+			user.setPassword( hashPassword(user.getPassword()));
 			userRepository.save(user);
 		}
 		
 		public void deleteUser( User user ) {
 			userRepository.delete(user);
 		}
+		
+		public User login( String login, String password ) throws CredentialsException {
+			User user = findByLogin( login );
+
+			if( user.getLogin().equals(login) && user.getPassword().equals( hashPassword(password) ))
+				return user;
+			
+			throw new CredentialsException( "Invalid credentials!" );
+		}
+		
+	    private String hashPassword( String password ) {
+
+	        MessageDigest messageDigest = null;
+	        try {
+	            messageDigest = MessageDigest.getInstance("SHA-256");
+	        } catch (NoSuchAlgorithmException ex) {
+	            ex.printStackTrace();
+	        }
+	        messageDigest.update(password.getBytes());
+	        byte[] bytes = messageDigest.digest();
+
+	        StringBuilder sb = new StringBuilder();
+	        for (int i = 0; i < bytes.length; i++) {
+	            sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+	        }
+
+	        return sb.toString();
+	    }
 }
