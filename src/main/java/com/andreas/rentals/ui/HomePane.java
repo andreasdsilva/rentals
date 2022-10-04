@@ -33,17 +33,17 @@ public class HomePane extends JPanel {
 		
 		JLabel welcomeLabel = new JLabel("Welcome!");
 		welcomeLabel.setFont(new Font("Arial Black", Font.BOLD, 14));
-		welcomeLabel.setBounds(102, 11, 163, 62);
+		welcomeLabel.setBounds(22, 11, 163, 62);
 		add(welcomeLabel);
 		
 		JLabel rentalsLabel = new JLabel("Rentals:");
 		rentalsLabel.setFont(new Font("Arial", Font.PLAIN, 13));
-		rentalsLabel.setBounds(102, 71, 83, 43);
+		rentalsLabel.setBounds(132, 71, 83, 43);
 		add(rentalsLabel);
 		
 		JLabel newRegisterLabel = new JLabel("Register new:");
 		newRegisterLabel.setFont(new Font("Arial", Font.PLAIN, 13));
-		newRegisterLabel.setBounds(382, 71, 97, 43);
+		newRegisterLabel.setBounds(411, 71, 97, 43);
 		add(newRegisterLabel);
 		
 		JButton newRentalbtn = new JButton("Rent a Car");
@@ -51,7 +51,7 @@ public class HomePane extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		newRentalbtn.setBounds(102, 143, 163, 50);
+		newRentalbtn.setBounds(132, 141, 163, 50);
 		add(newRentalbtn);
 		
 		JButton btnConsultRental = new JButton("Consult Rental");
@@ -59,15 +59,17 @@ public class HomePane extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnConsultRental.setBounds(102, 244, 163, 50);
+		btnConsultRental.setBounds(132, 244, 163, 50);
 		add(btnConsultRental);
 		
 		JButton btnBrand = new JButton("Brand");
 		btnBrand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				goToBrandRegister();
 			}
 		});
-		btnBrand.setBounds(382, 125, 163, 50);
+		
+		btnBrand.setBounds(411, 122, 163, 50);
 		add(btnBrand);
 		
 		JButton btnSpecification = new JButton("Specification");
@@ -75,7 +77,8 @@ public class HomePane extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnSpecification.setBounds(382, 183, 163, 50);
+		
+		btnSpecification.setBounds(411, 183, 163, 50);
 		add(btnSpecification);
 		
 		JButton btnCustomer = new JButton("Customer");
@@ -83,15 +86,31 @@ public class HomePane extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnCustomer.setBounds(382, 305, 163, 50);
+		
+		btnCustomer.setBounds(411, 305, 163, 50);
 		add(btnCustomer);
 		
 		JButton btnCategory = new JButton("Category");
-		btnCategory.setBounds(382, 244, 163, 50);
+		btnCategory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
+		btnCategory.setBounds(411, 244, 163, 50);
 		add(btnCategory);
 		
 		JButton btnCar = new JButton("Car");
-		btnCar.setBounds(382, 366, 163, 50);
+		btnCar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
+		btnCar.setBounds(411, 366, 163, 50);
 		add(btnCar);
+	}
+	
+	private void goToBrandRegister() {
+		main.getBrandRegisterPane();
+		main.setPanel( main.getBrandRegisterPane().getRootPanel() );
 	}
 }

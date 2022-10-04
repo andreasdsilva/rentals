@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,11 +21,13 @@ public class Brand implements Serializable{
 	private Long id;
 	
 	private String name;
+	
+	@Column(name="created_at")
 	private Date createdAt;
 	
 	public Brand() {}
 	
-	public Brand(String name, Date createdAt) {
+	public Brand( String name, Date createdAt ) {
 		super();
 		this.name = name;
 		this.createdAt = createdAt;

@@ -12,12 +12,14 @@ public class MainFrame extends JFrame {
 	private final LoginPane loginPane;
 	private final RegisterPane registerPane;
 	private final HomePane homePane;
+	private final BrandRegisterPane brandRegisterPane;
 	
     public MainFrame() {
 
         loginPane = new LoginPane( this );
         registerPane = new RegisterPane( this );
         homePane = new HomePane(this);
+        brandRegisterPane = new BrandRegisterPane(this);
 
         this.setTitle( "Rentals" );
         this.setDefaultCloseOperation( EXIT_ON_CLOSE );
@@ -49,6 +51,10 @@ public class MainFrame extends JFrame {
 
 	public HomePane getHomPane() {		
 		return homePane;
+	}
+	
+	public BrandRegisterPane getBrandRegisterPane() {		
+		return brandRegisterPane;
 	}
 	
 	public void init() {

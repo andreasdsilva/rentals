@@ -5,6 +5,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class BeanUtil {
 
+	
 	public static Object getBeanByName( String name ) {
 		try
 		{

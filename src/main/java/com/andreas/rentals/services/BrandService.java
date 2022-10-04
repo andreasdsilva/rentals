@@ -1,5 +1,7 @@
 package com.andreas.rentals.services;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,5 +24,21 @@ public class BrandService {
 		public Brand findById( Long id ) {
 			Optional<Brand> obj = brandRepository.findById(id);
 			return obj.get();
+		}
+		
+		public Brand findByName( String name ) {
+			for( Brand brand : findAll() )
+			{
+				if( brand.getName().toLowerCase().equals( name.toLowerCase() ))
+				{
+					return brand;
+				}
+			}
+			return null;
+		}
+		
+		public void createBrand( Brand brand ) {
+			brand.setCreatedAt(new Date(Calendar.getInstance().getTime().getTime()));
+			brandRepository.save(brand);
 		}
 }

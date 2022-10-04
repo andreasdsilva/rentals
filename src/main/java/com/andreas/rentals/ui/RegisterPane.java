@@ -24,7 +24,7 @@ import com.andreas.rentals.util.BeanUtil;
 public class RegisterPane extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	;;@Autowired
+	@Autowired
 	private UserService userService;
 	
 	private MainFrame main;

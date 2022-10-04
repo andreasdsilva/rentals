@@ -5,17 +5,18 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.andreas.rentals.entities.User;
 import com.andreas.rentals.exceptions.CredentialsException;
 import com.andreas.rentals.repositories.UserRepository;
-import com.andreas.rentals.util.BeanUtil;
 
 @Service
 public class UserService {
 
-		private static UserRepository userRepository = (UserRepository) BeanUtil.getBeanByName("userRepository");
+		@Autowired
+		private UserRepository userRepository;
 		
 		public List<User> findAll() {
 			return userRepository.findAll();
