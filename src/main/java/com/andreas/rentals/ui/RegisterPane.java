@@ -70,7 +70,7 @@ public class RegisterPane extends JPanel {
 		add(confirmPasswordField);
 		
 		JLabel lblNewLabel_4 = new JLabel("Passwords must match!");
-		lblNewLabel_4.setBounds(376, 286, 220, 37);
+		lblNewLabel_4.setBounds(256, 286, 290, 37);
 		lblNewLabel_4.setForeground(Color.RED);
 		add(lblNewLabel_4);
 		
@@ -125,7 +125,7 @@ public class RegisterPane extends JPanel {
 		add(confirmPasswordField);
 		
 		JLabel matchPasswordLabel = new JLabel("");
-		matchPasswordLabel.setBounds(376, 286, 220, 37);
+		matchPasswordLabel.setBounds(256, 286, 290, 37);
 		matchPasswordLabel.setForeground(Color.RED);
 		matchPasswordLabel.setVisible(false);
 		add(matchPasswordLabel);
@@ -152,7 +152,7 @@ public class RegisterPane extends JPanel {
             	try 
             	{
             		String login = loginField.getText().toString();
-            		if( login == null || login.isEmpty() ) throw new CredentialsException("Login must not be empty!");    
+            		if( login == null || login.isEmpty() ) throw new CredentialsException("Login must not be empty!");            		
                 	String password = checkPassword( passwordField, confirmPasswordField );
                 	
                 	matchPasswordLabel.setVisible(false);
@@ -175,10 +175,10 @@ public class RegisterPane extends JPanel {
 		String password = new String( jpassword.getPassword() );
 		String confirmPassword = new String( jconfirmPassword.getPassword() );
 		
-		if( password.equals(confirmPassword) )
+		if( password.equals(confirmPassword) && !password.isEmpty() && !password.isEmpty())
 			return password;
 			
-		throw new CredentialsException("Passwords must match!");
+		throw new CredentialsException("Passwords must match and not be empty!");
 	}
 	
 	private void createUser( String login, String password) {
