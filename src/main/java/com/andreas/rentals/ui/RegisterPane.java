@@ -1,7 +1,6 @@
 package com.andreas.rentals.ui;
 
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -34,45 +33,53 @@ public class RegisterPane extends JPanel {
 	private JPasswordField confirmPasswordField;
 	
 	public RegisterPane() {
-		setLayout(new GridLayout(6, 2, 10, 15));
+		setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("    Register:");
+		lblNewLabel_1.setBounds(230, 36, 220, 37);
 		add(lblNewLabel_1);
 		
 		JSeparator separator = new JSeparator();
+		separator.setBounds(230, 1, 220, 37);
 		add(separator);
 		
 		JLabel lblNewLabel = new JLabel("    Login:");
+		lblNewLabel.setBounds(95, 105, 220, 37);
 		add(lblNewLabel);
 		
 		loginField = new JTextField();
+		loginField.setBounds(376, 105, 220, 37);
 		loginField.setHorizontalAlignment(SwingConstants.CENTER);
 		add(loginField);
 		loginField.setColumns(8);
 		
 		JLabel lblNewLabel_2 = new JLabel("    Password:");
+		lblNewLabel_2.setBounds(95, 169, 220, 37);
 		add(lblNewLabel_2);
 		
 		passwordField = new JPasswordField();
+		passwordField.setBounds(376, 169, 220, 37);
 		add(passwordField);
 		
 		JLabel lblNewLabel_3 = new JLabel("    Confirm password:");
+		lblNewLabel_3.setBounds(95, 231, 220, 37);
 		add(lblNewLabel_3);
 		
 		confirmPasswordField = new JPasswordField();
+		confirmPasswordField.setBounds(376, 231, 220, 37);
 		add(confirmPasswordField);
 		
-		JSeparator separator_1 = new JSeparator();
-		add(separator_1);
-		
 		JLabel lblNewLabel_4 = new JLabel("Passwords must match!");
+		lblNewLabel_4.setBounds(376, 286, 220, 37);
 		lblNewLabel_4.setForeground(Color.RED);
 		add(lblNewLabel_4);
 		
 		JButton btnNewButton_1 = new JButton("Register");
+		btnNewButton_1.setBounds(95, 334, 236, 51);
 		add(btnNewButton_1);
 		
 		JButton btnNewButton = new JButton("Already have an account");
+		btnNewButton.setBounds(368, 334, 228, 51);
 		add(btnNewButton);
 	}
 
@@ -81,45 +88,54 @@ public class RegisterPane extends JPanel {
 		this.userService = (UserService) BeanUtil.getBeanByName("userService");
 		main = (MainFrame) frame;
 		
-		setLayout(new GridLayout(6, 2, 10, 15));
+		setLayout(null);
 		
-		JLabel registerLabel = new JLabel("    Register:");
-		add(registerLabel);
+		JLabel lblNewLabel_1 = new JLabel("    Register:");
+		lblNewLabel_1.setBounds(230, 36, 220, 37);
+		add(lblNewLabel_1);
 		
 		JSeparator separator = new JSeparator();
+		separator.setBounds(230, 1, 220, 37);
 		add(separator);
 		
-		JLabel loginLabel = new JLabel("    Login:");
-		add(loginLabel);
+		JLabel lblNewLabel = new JLabel("    Login:");
+		lblNewLabel.setBounds(95, 105, 220, 37);
+		add(lblNewLabel);
 		
 		loginField = new JTextField();
+		loginField.setBounds(376, 105, 220, 37);
+		loginField.setHorizontalAlignment(SwingConstants.CENTER);
 		add(loginField);
 		loginField.setColumns(8);
 		
-		JLabel passwordLabel = new JLabel("    Password:");
-		add(passwordLabel);
+		JLabel lblNewLabel_2 = new JLabel("    Password:");
+		lblNewLabel_2.setBounds(95, 169, 220, 37);
+		add(lblNewLabel_2);
 		
 		passwordField = new JPasswordField();
+		passwordField.setBounds(376, 169, 220, 37);
 		add(passwordField);
 		
-		JLabel confirmPasswordLabel = new JLabel("    Confirm password:");
-		add(confirmPasswordLabel);
+		JLabel lblNewLabel_3 = new JLabel("    Confirm password:");
+		lblNewLabel_3.setBounds(95, 231, 220, 37);
+		add(lblNewLabel_3);
 		
 		confirmPasswordField = new JPasswordField();
+		confirmPasswordField.setBounds(376, 231, 220, 37);
 		add(confirmPasswordField);
 		
-		JSeparator separator_1 = new JSeparator();
-		add(separator_1);
-		
 		JLabel matchPasswordLabel = new JLabel("");
+		matchPasswordLabel.setBounds(376, 286, 220, 37);
 		matchPasswordLabel.setForeground(Color.RED);
 		matchPasswordLabel.setVisible(false);
 		add(matchPasswordLabel);
 		
 		JButton registerButton = new JButton("Register");
+		registerButton.setBounds(95, 334, 236, 51);
 		add(registerButton);
 		
 		JButton alreadyHaveAccountButton = new JButton("Already have an account");
+		alreadyHaveAccountButton.setBounds(368, 334, 228, 51);
 		add(alreadyHaveAccountButton);
 		
 		alreadyHaveAccountButton.addActionListener(new ActionListener() {

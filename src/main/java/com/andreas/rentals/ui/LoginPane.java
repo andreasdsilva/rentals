@@ -1,7 +1,6 @@
 package com.andreas.rentals.ui;
 
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -38,33 +37,39 @@ public class LoginPane extends JPanel {
 	public LoginPane( MainFrame frame ) {
 		
 		userService = (UserService) BeanUtil.getBeanByName("userService");
-		
+		this.setSize(720, 480);
 		main = (MainFrame) frame;
+		setLayout(null);
 		
-		setLayout(new GridLayout(7, 1, 0, 10));
-		
-		loginLabel = new JLabel("Login");
+		loginLabel = new JLabel("Login:");
+		loginLabel.setBounds(148, 107, 61, 34);
 		add(loginLabel);
 		
 		loginTextField = new JTextField();
+		loginTextField.setBounds(264, 107, 276, 34);
 		add(loginTextField);
 		loginTextField.setColumns(10);
 		
-		passwordLabel = new JLabel("Password");
+		passwordLabel = new JLabel("Password:");
+		passwordLabel.setBounds(148, 185, 61, 34);
 		add(passwordLabel);
 		
 		passwordField = new JPasswordField();
+		passwordField.setBounds(264, 185, 276, 34);
 		add(passwordField);
 		
 		invalidCredentials = new JLabel();
+		invalidCredentials.setBounds(201, 240, 287, 34);
 		invalidCredentials.setForeground(Color.RED);
 		invalidCredentials.setVisible(false);
 		add(invalidCredentials);
 		
 		loginButton = new JButton("Login");
+		loginButton.setBounds(211, 288, 288, 47);
 		add(loginButton);
 		
 		registerButton = new JButton("Register");
+		registerButton.setBounds(211, 357, 288, 47);
 		add(registerButton);
 		
 		registerButton.addActionListener(new ActionListener() {
