@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.andreas.rentals.entities.User;
@@ -22,7 +23,7 @@ import com.andreas.rentals.util.BeanUtil;
 public class LoginPane extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-    //@Autowired
+    @Autowired
 	private UserService userService;
 
 	private MainFrame main;

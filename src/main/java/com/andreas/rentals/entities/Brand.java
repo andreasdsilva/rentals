@@ -13,21 +13,22 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "brands")
-public class Brand implements Serializable{
+public class Brand implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String name;
-	
-	@Column(name="created_at")
+
+	@Column(name = "created_at")
 	private Date createdAt;
-	
-	public Brand() {}
-	
-	public Brand( String name, Date createdAt ) {
+
+	public Brand() {
+	}
+
+	public Brand(String name, Date createdAt) {
 		super();
 		this.name = name;
 		this.createdAt = createdAt;

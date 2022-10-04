@@ -6,7 +6,6 @@ import org.springframework.context.ApplicationContext;
 
 import com.andreas.rentals.ui.MainFrame;
 
-
 @SpringBootApplication
 public class RentalsApplication {
 

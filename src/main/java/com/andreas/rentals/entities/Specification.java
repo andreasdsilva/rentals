@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,19 +13,22 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "specifications")
-public class Specification implements Serializable{
+public class Specification implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String name;
 	private String description;
+
+	@Column(name = "created_at")
 	private Date createdAt;
-	
-	public Specification() {}
-	
+
+	public Specification() {
+	}
+
 	public Specification(String name, String description, Date createdAt) {
 		super();
 		this.name = name;

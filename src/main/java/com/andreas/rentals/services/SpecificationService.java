@@ -1,5 +1,7 @@
 package com.andreas.rentals.services;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,15 +14,29 @@ import com.andreas.rentals.repositories.SpecificationRepository;
 @Service
 public class SpecificationService {
 
-		@Autowired
-		private SpecificationRepository specificationRepository;
-		
-		public List<Specification> findAll() {
-			return specificationRepository.findAll();
+	@Autowired
+	private SpecificationRepository specificationRepository;
+
+	public List<Specification> findAll() {
+		return specificationRepository.findAll();
+	}
+
+	public Specification findById(Long id) {
+		Optional<Specification> obj = specificationRepository.findById(id);
+		return obj.get();
+	}
+
+	public Specification findByName(String name) {
+		for (Specification specification : findAll()) {
+			if (specification.getName().toLowerCase().equals(name.toLowerCase())) {
+				return specification;
+			}
 		}
-		
-		public Specification findById( Long id ) {
-			Optional<Specification> obj = specificationRepository.findById(id);
-			return obj.get();
-		}
+		return null;
+	}
+
+	public void createSpecification(Specification specification) {
+		specification.setCreatedAt(new Date(Calendar.getInstance().getTime().getTime()));
+		specificationRepository.save(specification);
+	}
 }

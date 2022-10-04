@@ -14,31 +14,29 @@ import com.andreas.rentals.repositories.BrandRepository;
 @Service
 public class BrandService {
 
-		@Autowired
-		private BrandRepository brandRepository;
-		
-		public List<Brand> findAll() {
-			return brandRepository.findAll();
-		}
-		
-		public Brand findById( Long id ) {
-			Optional<Brand> obj = brandRepository.findById(id);
-			return obj.get();
-		}
-		
-		public Brand findByName( String name ) {
-			for( Brand brand : findAll() )
-			{
-				if( brand.getName().toLowerCase().equals( name.toLowerCase() ))
-				{
-					return brand;
-				}
+	@Autowired
+	private BrandRepository brandRepository;
+
+	public List<Brand> findAll() {
+		return brandRepository.findAll();
+	}
+
+	public Brand findById(Long id) {
+		Optional<Brand> obj = brandRepository.findById(id);
+		return obj.get();
+	}
+
+	public Brand findByName(String name) {
+		for (Brand brand : findAll()) {
+			if (brand.getName().toLowerCase().equals(name.toLowerCase())) {
+				return brand;
 			}
-			return null;
 		}
-		
-		public void createBrand( Brand brand ) {
-			brand.setCreatedAt(new Date(Calendar.getInstance().getTime().getTime()));
-			brandRepository.save(brand);
-		}
+		return null;
+	}
+
+	public void createBrand(Brand brand) {
+		brand.setCreatedAt(new Date(Calendar.getInstance().getTime().getTime()));
+		brandRepository.save(brand);
+	}
 }

@@ -8,55 +8,61 @@ import org.springframework.stereotype.Component;
 @Component
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	
+
 	private final LoginPane loginPane;
 	private final RegisterPane registerPane;
 	private final HomePane homePane;
 	private final BrandRegisterPane brandRegisterPane;
-	
-    public MainFrame() {
+	private final SpecificationRegisterPane specificationRegisterPane;
 
-        loginPane = new LoginPane( this );
-        registerPane = new RegisterPane( this );
-        homePane = new HomePane(this);
-        brandRegisterPane = new BrandRegisterPane(this);
+	public MainFrame() {
 
-        this.setTitle( "Rentals" );
-        this.setDefaultCloseOperation( EXIT_ON_CLOSE );
+		loginPane = new LoginPane(this);
+		registerPane = new RegisterPane(this);
+		homePane = new HomePane(this);
+		brandRegisterPane = new BrandRegisterPane(this);
+		specificationRegisterPane = new SpecificationRegisterPane(this);
 
-        add( loginPane.getRootPanel() );
-        setSize( 720, 480 );
+		this.setTitle("Rentals");
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        setLocationRelativeTo( null );
-    }
+		add(loginPane.getRootPanel());
+		setSize(720, 480);
 
-    public void resetPanel() {
-        setPanel( loginPane.getRootPanel() );
-    }
+		setLocationRelativeTo(null);
+	}
 
-    public void setPanel( JPanel panel ) {
-        getContentPane().removeAll();
-        getContentPane().add( panel );
-        revalidate();
-        repaint();
-    }
+	public void resetPanel() {
+		setPanel(loginPane.getRootPanel());
+	}
 
-    public LoginPane getLoginPane() {
-        return loginPane;
-    }
-    
-    public RegisterPane getRegisterPane() {
-        return registerPane;
-    }
+	public void setPanel(JPanel panel) {
+		getContentPane().removeAll();
+		getContentPane().add(panel);
+		revalidate();
+		repaint();
+	}
 
-	public HomePane getHomPane() {		
+	public LoginPane getLoginPane() {
+		return loginPane;
+	}
+
+	public RegisterPane getRegisterPane() {
+		return registerPane;
+	}
+
+	public HomePane getHomPane() {
 		return homePane;
 	}
-	
-	public BrandRegisterPane getBrandRegisterPane() {		
+
+	public BrandRegisterPane getBrandRegisterPane() {
 		return brandRegisterPane;
 	}
-	
+
+	public SpecificationRegisterPane getSpecificationRegisterPane() {
+		return specificationRegisterPane;
+	}
+
 	public void init() {
 		this.setVisible(true);
 	}
