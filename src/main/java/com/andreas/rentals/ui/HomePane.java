@@ -3,8 +3,7 @@ package com.andreas.rentals.ui;
 import javax.swing.JPanel;
 
 public class HomePane extends JPanel {
-
-private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	
 	private MainFrame main;
  	

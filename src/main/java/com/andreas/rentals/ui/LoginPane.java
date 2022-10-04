@@ -84,15 +84,15 @@ public class LoginPane extends JPanel {
 	
 	private void performLogin() {
         try {
-        	if( loginTextField.getText().isEmpty() || passwordField.getPassword().toString().isEmpty()) 
+        	String passwordText = new String(passwordField.getPassword());
+        	String loginText =loginTextField.getText();
+        	
+        	if( loginText.isEmpty() || passwordText.isEmpty()) 
         		throw new CredentialsException( "All fields must be filled!" );
         	
-            User user = userService.login( loginTextField.getText(), passwordField.getPassword().toString() );
-            System.out.println(user.getLogin() + "-" + user.getPassword() + " perform login method" );
-            registerButton.setForeground( Color.BLACK );
-            
-            ApplicationContext.getInstance().setLoggedUser( user );
-            
+            User user = userService.login( loginText, passwordText );            
+            registerButton.setForeground( Color.BLACK );          
+            ApplicationContext.getInstance().setLoggedUser( user );            
             main.getHomPane();
             main.setPanel( main.getHomPane().getRootPanel() );
             

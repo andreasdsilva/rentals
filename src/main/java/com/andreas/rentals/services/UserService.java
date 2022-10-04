@@ -39,7 +39,7 @@ public class UserService {
 		}
 		
 		public void createUser( User user ) {
-			user.setPassword( user.getPassword() );
+			user.setPassword( hashPassword( user.getPassword() ) );
 			userRepository.save(user);
 		}
 		
@@ -48,9 +48,9 @@ public class UserService {
 		}
 		
 		public User login( String login, String password ) throws CredentialsException {
+
 			User user = findByLogin( login );
-			System.out.println(user.getLogin() + "-" + user.getPassword() + " login method" );
-			if( user.getLogin().equals(login) && user.getPassword().equals( password ))
+			if( user.getLogin().equals(login) && user.getPassword().equals( hashPassword(password) ))
 			{
 				return user;				
 			}

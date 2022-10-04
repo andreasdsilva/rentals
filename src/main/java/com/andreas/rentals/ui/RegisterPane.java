@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.andreas.rentals.entities.User;
+import com.andreas.rentals.exceptions.CredentialsException;
 import com.andreas.rentals.services.UserService;
 import com.andreas.rentals.util.BeanUtil;
 
@@ -92,7 +93,6 @@ public class RegisterPane extends JPanel {
 		add(loginLabel);
 		
 		loginField = new JTextField();
-		loginField.setHorizontalAlignment(SwingConstants.CENTER);
 		add(loginField);
 		loginField.setColumns(8);
 		
@@ -111,11 +111,10 @@ public class RegisterPane extends JPanel {
 		JSeparator separator_1 = new JSeparator();
 		add(separator_1);
 		
-		JLabel matchPasswordLabel = new JLabel("Passwords must match & login must not be empty!");
+		JLabel matchPasswordLabel = new JLabel("");
 		matchPasswordLabel.setForeground(Color.RED);
 		matchPasswordLabel.setVisible(false);
 		add(matchPasswordLabel);
-		matchPasswordLabel.setVisible(false);
 		
 		JButton registerButton = new JButton("Register");
 		add(registerButton);
@@ -126,31 +125,44 @@ public class RegisterPane extends JPanel {
 		alreadyHaveAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	matchPasswordLabel.setText("");
             	goToLogin();
             }
         });
 		
-		alreadyHaveAccountButton.addActionListener(new ActionListener() {
+		registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
-            	String login = loginField.getText().toString();
-            	String password = passwordField.getPassword().toString();
-            	
-            	if( password.equals( confirmPasswordField.getPassword().toString() ) && !login.isEmpty() )
-            	{            	
-            		matchPasswordLabel.setVisible(false);
+            	try 
+            	{
+            		String login = loginField.getText().toString();
+            		if( login == null || login.isEmpty() ) throw new CredentialsException("Login must not be empty!");    
+                	String password = checkPassword( passwordField, confirmPasswordField );
+                	
+                	matchPasswordLabel.setVisible(false);
             		createUser( login, password );
             		goToHome();
+                	
             	}
-            	else
+            	catch( CredentialsException ex )
             	{
+            		matchPasswordLabel.setText( ex.getMessage() );
             		matchPasswordLabel.setVisible(true);
             		main.setPanel(getRootPanel());
             	}
             }
         });
 
+	}
+	
+	private String checkPassword( JPasswordField jpassword, JPasswordField jconfirmPassword ) {
+		String password = new String( jpassword.getPassword() );
+		String confirmPassword = new String( jconfirmPassword.getPassword() );
+		
+		if( password.equals(confirmPassword) )
+			return password;
+			
+		throw new CredentialsException("Passwords must match!");
 	}
 	
 	private void createUser( String login, String password) {
