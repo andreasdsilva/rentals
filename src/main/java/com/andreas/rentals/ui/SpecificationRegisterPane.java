@@ -20,7 +20,7 @@ public class SpecificationRegisterPane extends JPanel {
 	private SpecificationService specificationService;
 	private MainFrame main;
 	private JTextField nameTextField;
-	private JLabel existingSpecificationLabel;
+	private JLabel specificationWarningLabel;
 	private JTextField descriptionTextField;
 
 	public SpecificationRegisterPane(MainFrame frame) {
@@ -55,12 +55,12 @@ public class SpecificationRegisterPane extends JPanel {
 		add(nameTextField);
 		nameTextField.setColumns(10);
 
-		existingSpecificationLabel = new JLabel("");
-		existingSpecificationLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-		existingSpecificationLabel.setForeground(Color.RED);
-		existingSpecificationLabel.setVisible(false);
-		existingSpecificationLabel.setBounds(280, 342, 240, 23);
-		add(existingSpecificationLabel);
+		specificationWarningLabel = new JLabel("");
+		specificationWarningLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+		specificationWarningLabel.setForeground(Color.RED);
+		specificationWarningLabel.setVisible(false);
+		specificationWarningLabel.setBounds(280, 342, 240, 23);
+		add(specificationWarningLabel);
 
 		JButton btnNewButton = new JButton("Register Specification");
 		btnNewButton.setBounds(264, 405, 206, 31);
@@ -98,7 +98,7 @@ public class SpecificationRegisterPane extends JPanel {
 	}
 
 	private void goToHomePage() {
-		existingSpecificationLabel.setText("");
+		specificationWarningLabel.setText("");
 		nameTextField.setText("");
 		descriptionTextField.setText("");
 		main.getHomPane();
@@ -114,15 +114,15 @@ public class SpecificationRegisterPane extends JPanel {
 				specification.setName(name);
 				specification.setDescription(description);
 				specificationService.createSpecification(specification);
-				existingSpecificationLabel.setText("Specification " + specification.getName() + " created!");
+				specificationWarningLabel.setText("Specification " + specification.getName() + " created!");
 			} else {
-				existingSpecificationLabel.setText("Specification already exists!");
+				specificationWarningLabel.setText("Specification already exists!");
 			}
 
-			existingSpecificationLabel.setVisible(true);
+			specificationWarningLabel.setVisible(true);
 			main.setPanel(getRootPanel());
 		} else {
-			existingSpecificationLabel.setText("Please enter a Specification name!");
+			specificationWarningLabel.setText("Please enter a Specification name!");
 		}
 	}
 }

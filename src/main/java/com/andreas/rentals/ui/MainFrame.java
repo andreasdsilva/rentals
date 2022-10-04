@@ -14,7 +14,8 @@ public class MainFrame extends JFrame {
 	private final HomePane homePane;
 	private final BrandRegisterPane brandRegisterPane;
 	private final SpecificationRegisterPane specificationRegisterPane;
-
+	private final CategoryRegisterPane categoryRegisterPane;
+ 
 	public MainFrame() {
 
 		loginPane = new LoginPane(this);
@@ -22,6 +23,7 @@ public class MainFrame extends JFrame {
 		homePane = new HomePane(this);
 		brandRegisterPane = new BrandRegisterPane(this);
 		specificationRegisterPane = new SpecificationRegisterPane(this);
+		categoryRegisterPane = new CategoryRegisterPane(this);
 
 		this.setTitle("Rentals");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -63,6 +65,10 @@ public class MainFrame extends JFrame {
 		return specificationRegisterPane;
 	}
 
+	public CategoryRegisterPane getCategoryRegisterPane() {
+		return categoryRegisterPane;
+	}
+	
 	public void init() {
 		this.setVisible(true);
 	}

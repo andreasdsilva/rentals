@@ -94,6 +94,7 @@ public class HomePane extends JPanel {
 		JButton btnCategory = new JButton("Category");
 		btnCategory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				goToCategoryRegisterPane();
 			}
 		});
 
@@ -118,5 +119,10 @@ public class HomePane extends JPanel {
 	private void goToSpecificationRegisterPane() {
 		main.getSpecificationRegisterPane();
 		main.setPanel(main.getSpecificationRegisterPane().getRootPanel());
+	}
+	
+	private void goToCategoryRegisterPane() {
+		main.getCategoryRegisterPane();
+		main.setPanel(main.getCategoryRegisterPane().getRootPanel());
 	}
 }

@@ -1,5 +1,7 @@
 package com.andreas.rentals.services;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,15 +14,29 @@ import com.andreas.rentals.repositories.CategoryRepository;
 @Service
 public class CategoryService {
 
-		@Autowired
-		private CategoryRepository categoryRepository;
-		
-		public List<Category> findAll() {
-			return categoryRepository.findAll();
+	@Autowired
+	private CategoryRepository categoryRepository;
+
+	public List<Category> findAll() {
+		return categoryRepository.findAll();
+	}
+
+	public Category findById(Long id) {
+		Optional<Category> obj = categoryRepository.findById(id);
+		return obj.get();
+	}
+
+	public Category findByName(String name) {
+		for (Category category : findAll()) {
+			if (category.getName().toLowerCase().equals(name.toLowerCase())) {
+				return category;
+			}
 		}
-		
-		public Category findById( Long id ) {
-			Optional<Category> obj = categoryRepository.findById(id);
-			return obj.get();
-		}
+		return null;
+	}
+
+	public void createSpecification(Category category) {
+		category.setCreatedAt(new Date(Calendar.getInstance().getTime().getTime()));
+		categoryRepository.save(category);
+	}
 }
