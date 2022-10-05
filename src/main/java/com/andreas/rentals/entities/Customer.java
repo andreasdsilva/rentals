@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,24 +13,35 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "customers")
-public class Customer implements Serializable{
+public class Customer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String name;
+	
+	@Column(name = "birth_date")
 	private Date birthDate;
 	private String email;
+	
+	@Column(name = "driver_license")
 	private Integer driverLicense;
 	private String address;
+	
+	@Column(name = "phone_number")
 	private Integer phoneNumber;
+
+	@Column(name = "created_at")
 	private Date createdAt;
+
+	@Column(name = "updated_at")
 	private Date updatedAt;
-	
-	public Customer() {}
-	
+
+	public Customer() {
+	}
+
 	public Customer(String name, Date birthDate, String email, Integer driverLicense, String address,
 			Integer phoneNumber, Date createdAt, Date updatedAt) {
 		super();
@@ -126,5 +138,10 @@ public class Customer implements Serializable{
 			return false;
 		Customer other = (Customer) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	@Override
+	public String toString() {
+		return name + " - " + driverLicense;
 	}
 }

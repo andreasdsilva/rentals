@@ -1,4 +1,4 @@
-package com.andreas.rentals.resource;
+package com.andreas.rentals.resources;
 
 import java.util.List;
 
@@ -17,12 +17,11 @@ public class UserResource {
 
 	@Autowired
 	private UserService service;
-	
+
 	@GetMapping
-	public ResponseEntity<List<User>> findAll()
-	{
+	public ResponseEntity<List<User>> findAll() {
 		List<User> list = service.findAll();
-		
+
 		return ResponseEntity.ok().body(list);
 	}
 }

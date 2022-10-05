@@ -85,6 +85,7 @@ public class HomePane extends JPanel {
 		JButton btnCustomer = new JButton("Customer");
 		btnCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				goToCustomerRegisterPane();
 			}
 		});
 
@@ -124,5 +125,10 @@ public class HomePane extends JPanel {
 	private void goToCategoryRegisterPane() {
 		main.getCategoryRegisterPane();
 		main.setPanel(main.getCategoryRegisterPane().getRootPanel());
+	}
+	
+	private void goToCustomerRegisterPane() {
+		main.getCustomerRegisterPane();
+		main.setPanel(main.getCustomerRegisterPane().getRootPanel());
 	}
 }

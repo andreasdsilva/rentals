@@ -1,5 +1,7 @@
 package com.andreas.rentals.services;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,15 +14,30 @@ import com.andreas.rentals.repositories.CustomerRepository;
 @Service
 public class CustomerService {
 
-		@Autowired
-		private CustomerRepository customerRepository;
-		
-		public List<Customer> findAll() {
-			return customerRepository.findAll();
+	@Autowired
+	private CustomerRepository customerRepository;
+
+	public List<Customer> findAll() {
+		return customerRepository.findAll();
+	}
+
+	public Customer findById(Long id) {
+		Optional<Customer> obj = customerRepository.findById(id);
+		return obj.get();
+	}
+
+	public Customer findByLicense(long license) {
+		for (Customer customer : findAll()) {
+			if (customer.getDriverLicense() == license) {
+				return customer;
+			}
 		}
-		
-		public Customer findById( Long id ) {
-			Optional<Customer> obj = customerRepository.findById(id);
-			return obj.get();
-		}
+		return null;
+	}
+
+	public void createCustomer(Customer customer) {
+		customer.setCreatedAt(new Date(Calendar.getInstance().getTime().getTime()));
+		customer.setUpdatedAt(new Date(Calendar.getInstance().getTime().getTime()));
+		customerRepository.save(customer);
+	}
 }
