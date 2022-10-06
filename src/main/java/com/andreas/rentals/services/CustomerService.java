@@ -27,9 +27,9 @@ public class CustomerService {
 	}
 
 	public Customer findByLicense(long license) {
-		for (Customer customer : findAll()) {
-			if (customer.getDriverLicense() == license) {
-				return customer;
+		for(Customer brand : findAll()) {
+			if( brand.getDriverLicense() == license) {
+				return brand;
 			}
 		}
 		return null;

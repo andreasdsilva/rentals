@@ -28,15 +28,10 @@ public class UserService {
 	}
 
 	public User findByLogin(String login) throws CredentialsException {
-		List<User> users = findAll();
-
-		for (User user : users) {
-			if (user.getLogin().equals(login))
-				return user;
-		}
-
-		throw new CredentialsException("User not found!");
+		User user = userRepository.findByLogin(login);
+		return user;
 	}
+
 
 	public void createUser(User user) {
 		user.setPassword(hashPassword(user.getPassword()));
@@ -53,7 +48,7 @@ public class UserService {
 		if (user.getLogin().equals(login) && user.getPassword().equals(hashPassword(password))) {
 			return user;
 		} else {
-			throw new CredentialsException("Invalid password");
+			throw new CredentialsException("Invalid login or password");
 		}
 	}
 

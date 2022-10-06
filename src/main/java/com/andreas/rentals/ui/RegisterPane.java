@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.andreas.rentals.entities.User;
 import com.andreas.rentals.exceptions.CredentialsException;
+import com.andreas.rentals.repositories.UserRepository;
 import com.andreas.rentals.services.UserService;
 import com.andreas.rentals.util.BeanUtil;
 
@@ -153,8 +154,8 @@ public class RegisterPane extends JPanel {
             	{
             		String login = loginField.getText().toString();
             		if( login == null || login.isEmpty() ) throw new CredentialsException("Login must not be empty!");            		
-                	String password = checkPassword( passwordField, confirmPasswordField );
-                	
+                	String password = checkPassword( passwordField, confirmPasswordField );                	
+                	                	
                 	matchPasswordLabel.setVisible(false);
             		createUser( login, password );
             		goToHome();
@@ -182,6 +183,8 @@ public class RegisterPane extends JPanel {
 	}
 	
 	private void createUser( String login, String password) {
+		if( userService.findByLogin(login) != null )
+			throw new CredentialsException("User already exists!");
 		User newUser = new User( login, password );
 		userService.createUser(newUser);
 	}

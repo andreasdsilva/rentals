@@ -27,8 +27,8 @@ public class BrandService {
 	}
 
 	public Brand findByName(String name) {
-		for (Brand brand : findAll()) {
-			if (brand.getName().toLowerCase().equals(name.toLowerCase())) {
+		for(Brand brand : findAll()) {
+			if( brand.getName().equals(name)) {
 				return brand;
 			}
 		}

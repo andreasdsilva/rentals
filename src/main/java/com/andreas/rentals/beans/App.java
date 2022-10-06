@@ -8,8 +8,14 @@ import com.andreas.rentals.ui.MainFrame;
 public class App {
 	
 	public void init() {
-	    MainFrame main = new MainFrame();
+	    MainFrame main;
+		try {
+			main = new MainFrame();
+			main.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 	    
-	    main.setVisible(true);
 	}
 }

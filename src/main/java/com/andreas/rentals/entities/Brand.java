@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "brands")
+@Table(name = "brands", schema = "public")
 public class Brand implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -20,6 +20,7 @@ public class Brand implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(name = "name")
 	private String name;
 
 	@Column(name = "created_at")
@@ -52,6 +53,11 @@ public class Brand implements Serializable {
 
 	public Long getId() {
 		return id;
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 
 	@Override

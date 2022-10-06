@@ -27,8 +27,8 @@ public class SpecificationService {
 	}
 
 	public Specification findByName(String name) {
-		for (Specification specification : findAll()) {
-			if (specification.getName().toLowerCase().equals(name.toLowerCase())) {
+		for(Specification specification : findAll()) {
+			if( specification.getName().equals(name)) {
 				return specification;
 			}
 		}

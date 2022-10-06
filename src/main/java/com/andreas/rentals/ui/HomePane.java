@@ -105,6 +105,7 @@ public class HomePane extends JPanel {
 		JButton btnCar = new JButton("Car");
 		btnCar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				goToCarRegisterPane();
 			}
 		});
 
@@ -130,5 +131,10 @@ public class HomePane extends JPanel {
 	private void goToCustomerRegisterPane() {
 		main.getCustomerRegisterPane();
 		main.setPanel(main.getCustomerRegisterPane().getRootPanel());
+	}
+	
+	private void goToCarRegisterPane() {
+		main.getCarRegisterPane().populateComboBox();
+		main.setPanel(main.getCarRegisterPane().getRootPanel());
 	}
 }

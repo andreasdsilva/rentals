@@ -27,8 +27,8 @@ public class CategoryService {
 	}
 
 	public Category findByName(String name) {
-		for (Category category : findAll()) {
-			if (category.getName().toLowerCase().equals(name.toLowerCase())) {
+		for(Category category : findAll()) {
+			if( category.getName().equals(name)) {
 				return category;
 			}
 		}

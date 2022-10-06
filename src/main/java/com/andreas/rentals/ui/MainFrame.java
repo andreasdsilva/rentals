@@ -2,6 +2,7 @@ package com.andreas.rentals.ui;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 import org.springframework.stereotype.Component;
 
@@ -16,9 +17,10 @@ public class MainFrame extends JFrame {
 	private final SpecificationRegisterPane specificationRegisterPane;
 	private final CategoryRegisterPane categoryRegisterPane;
 	private final CustomerRegisterPane customerRegisterPane;
- 
-	public MainFrame() {
-
+	private final CarRegisterPane carRegisterPane;
+	
+	public MainFrame() throws Exception {
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		loginPane = new LoginPane(this);
 		registerPane = new RegisterPane(this);
 		homePane = new HomePane(this);
@@ -26,6 +28,7 @@ public class MainFrame extends JFrame {
 		specificationRegisterPane = new SpecificationRegisterPane(this);
 		categoryRegisterPane = new CategoryRegisterPane(this);
 		customerRegisterPane = new CustomerRegisterPane(this);
+		carRegisterPane = new CarRegisterPane(this);
 
 		this.setTitle("Rentals");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -69,6 +72,10 @@ public class MainFrame extends JFrame {
 
 	public CategoryRegisterPane getCategoryRegisterPane() {
 		return categoryRegisterPane;
+	}
+	
+	public CarRegisterPane getCarRegisterPane() {
+		return carRegisterPane;
 	}
 	
 	public CustomerRegisterPane getCustomerRegisterPane() {
