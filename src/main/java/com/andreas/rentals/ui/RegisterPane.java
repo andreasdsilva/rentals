@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 
 import com.andreas.rentals.entities.User;
 import com.andreas.rentals.exceptions.CredentialsException;
-import com.andreas.rentals.repositories.UserRepository;
 import com.andreas.rentals.services.UserService;
 import com.andreas.rentals.util.BeanUtil;
 

@@ -99,7 +99,7 @@ public class LoginPane extends JPanel {
             User user = userService.login( loginText, passwordText );            
             registerButton.setForeground( Color.BLACK );          
             ApplicationContext.getInstance().setLoggedUser( user );            
-            main.getHomPane();
+            main.getHomPane().setLoggedUser();
             main.setPanel( main.getHomPane().getRootPanel() );
             
             passwordField.setText("");

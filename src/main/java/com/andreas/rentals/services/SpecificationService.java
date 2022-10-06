@@ -27,12 +27,7 @@ public class SpecificationService {
 	}
 
 	public Specification findByName(String name) {
-		for(Specification specification : findAll()) {
-			if( specification.getName().equals(name)) {
-				return specification;
-			}
-		}
-		return null;
+		return specificationRepository.findByName(name);
 	}
 
 	public void createSpecification(Specification specification) {

@@ -3,6 +3,9 @@ package com.andreas.rentals.ui;
 import javax.swing.JPanel;
 
 import org.springframework.stereotype.Component;
+
+import com.andreas.rentals.util.ApplicationContext;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -14,6 +17,7 @@ public class HomePane extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private MainFrame main;
+	private JLabel welcomeLabel;
 
 	public HomePane(MainFrame frame) {
 		setMain((MainFrame) frame);
@@ -31,7 +35,7 @@ public class HomePane extends JPanel {
 		this.main = main;
 		setLayout(null);
 
-		JLabel welcomeLabel = new JLabel("Welcome!");
+		welcomeLabel = new JLabel();
 		welcomeLabel.setFont(new Font("Arial Black", Font.BOLD, 14));
 		welcomeLabel.setBounds(22, 11, 163, 62);
 		add(welcomeLabel);
@@ -113,6 +117,10 @@ public class HomePane extends JPanel {
 		add(btnCar);
 	}
 
+	public void setLoggedUser() {
+		welcomeLabel.setText("Welcome, " + ApplicationContext.getInstance().getLoggedUser() + " !");
+	}
+
 	private void goToBrandRegister() {
 		main.getBrandRegisterPane();
 		main.setPanel(main.getBrandRegisterPane().getRootPanel());
@@ -122,17 +130,17 @@ public class HomePane extends JPanel {
 		main.getSpecificationRegisterPane();
 		main.setPanel(main.getSpecificationRegisterPane().getRootPanel());
 	}
-	
+
 	private void goToCategoryRegisterPane() {
 		main.getCategoryRegisterPane();
 		main.setPanel(main.getCategoryRegisterPane().getRootPanel());
 	}
-	
+
 	private void goToCustomerRegisterPane() {
 		main.getCustomerRegisterPane();
 		main.setPanel(main.getCustomerRegisterPane().getRootPanel());
 	}
-	
+
 	private void goToCarRegisterPane() {
 		main.getCarRegisterPane().populateComboBox();
 		main.setPanel(main.getCarRegisterPane().getRootPanel());

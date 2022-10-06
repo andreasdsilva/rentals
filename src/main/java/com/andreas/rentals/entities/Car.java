@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -35,9 +34,9 @@ public class Car implements Serializable {
 	private Brand brand;
 
 	@Column(name = "daily_rate")
-	private int dailyRate;
+	private double dailyRate;
 
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
 
@@ -131,12 +130,12 @@ public class Car implements Serializable {
 		return id;
 	}
 
-	public int getDailyRate() {
+	public double getDailyRate() {
 		return dailyRate;
 	}
 
-	public void setDailyRate(int dailyRate) {
-		this.dailyRate = dailyRate;
+	public void setDailyRate(double d) {
+		this.dailyRate = d;
 	}
 
 	@Override

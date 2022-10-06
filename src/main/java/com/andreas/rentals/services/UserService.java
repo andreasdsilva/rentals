@@ -45,7 +45,7 @@ public class UserService {
 	public User login(String login, String password) throws CredentialsException {
 
 		User user = findByLogin(login);
-		if (user.getLogin().equals(login) && user.getPassword().equals(hashPassword(password))) {
+		if (user != null && user.getLogin().equals(login) && user.getPassword().equals(hashPassword(password))) {
 			return user;
 		} else {
 			throw new CredentialsException("Invalid login or password");
