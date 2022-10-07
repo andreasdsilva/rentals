@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,15 +31,20 @@ public class Rental implements Serializable{
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 	
+	@Column(name = "star_date")
 	private Date startDate;
+	@Column(name = "end_date")
 	private Date endDate;
-	private Integer total;
+	@Column(name = "created_at")
 	private Date createdAt;
+	@Column(name = "updated_at")
 	private Date updatedAt;
+	
+	private Double total;
 	
 	public Rental() {}
 	
-	public Rental(Car car, Customer customer, Date startDate, Date endDate, Integer total, Date createdAt, Date updatedAt) {
+	public Rental(Car car, Customer customer, Date startDate, Date endDate, Double total, Date createdAt, Date updatedAt) {
 		super();
 		this.car = car;
 		this.customer = customer;
@@ -81,11 +87,11 @@ public class Rental implements Serializable{
 		this.endDate = endDate;
 	}
 
-	public Integer getTotal() {
+	public Double getTotal() {
 		return total;
 	}
 
-	public void setTotal(Integer total) {
+	public void setTotal(Double total) {
 		this.total = total;
 	}
 

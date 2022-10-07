@@ -8,6 +8,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.Date;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -18,19 +19,24 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DateFormatter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.andreas.rentals.entities.Car;
+import com.andreas.rentals.entities.CarSpecification;
 import com.andreas.rentals.entities.Category;
 import com.andreas.rentals.entities.Customer;
 import com.andreas.rentals.entities.Rental;
 import com.andreas.rentals.entities.Specification;
 import com.andreas.rentals.exceptions.CredentialsException;
 import com.andreas.rentals.services.CarService;
+import com.andreas.rentals.services.CarSpecificationService;
 import com.andreas.rentals.services.CategoryService;
 import com.andreas.rentals.services.CustomerService;
 import com.andreas.rentals.services.RentalService;
@@ -42,6 +48,7 @@ public class RentalPane extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private RentalService rentalService;
+	private CarSpecificationService carSpecificationService;
 	private CarService carService;
 	private SpecificationService specificationService;
 	private CategoryService categoryService;
@@ -53,14 +60,16 @@ public class RentalPane extends JPanel {
 	private JFormattedTextField startDateTextField;
 	private JFormattedTextField endDateTextField;
 	private JTextField totalTextField;
-	private JLabel lblError;
+	private JLabel lblWarning;
 	private JComboBox<Category> categoryComboBox;
 	private JComboBox<Specification> specificationComboBox;
-	private JTable carListTable;
 	private JCheckBox chckbxCategory;
 	private JCheckBox chckbxSpecifications;
+	private DefaultTableModel tableModel;
 
 	private DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+	private JTable tableAvailableCars;
+	private JTextField carIdTextField;
 
 	public RentalPane(MainFrame frame) {
 		setMain((MainFrame) frame);
@@ -77,10 +86,11 @@ public class RentalPane extends JPanel {
 	private void setMain(MainFrame main) {
 
 		rentalService = (RentalService) BeanUtil.getBeanByName("rentalService");
-		carService = (CarService) BeanUtil.getBeanByName("carService");
+		carSpecificationService = (CarSpecificationService) BeanUtil.getBeanByName("carSpecificationService");
 		specificationService = (SpecificationService) BeanUtil.getBeanByName("specificationService");
 		categoryService = (CategoryService) BeanUtil.getBeanByName("categoryService");
 		customerService = (CustomerService) BeanUtil.getBeanByName("customerService");
+		carService = (CarService) BeanUtil.getBeanByName("carService");
 
 		this.main = main;
 		setLayout(null);
@@ -112,8 +122,9 @@ public class RentalPane extends JPanel {
 				try {
 					long license = Long.parseLong(driverLicenseTextField.getText());
 					searchByLicense(license);
+					lblWarning.setText("");
 				} catch (Exception ex) {
-					lblError.setText("Please enter a valid license, only numbers!");
+					lblWarning.setText("Please enter a valid license, only numbers!");
 				}
 
 			}
@@ -158,41 +169,45 @@ public class RentalPane extends JPanel {
 
 		JLabel lblTotal = new JLabel("Total:");
 		lblTotal.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblTotal.setBounds(397, 372, 90, 42);
+		lblTotal.setBounds(382, 372, 90, 42);
 		add(lblTotal);
 
 		totalTextField = new JTextField();
 		totalTextField.setText("$");
 		totalTextField.setEnabled(false);
 		totalTextField.setColumns(10);
-		totalTextField.setBounds(443, 380, 116, 26);
+		totalTextField.setBounds(423, 380, 125, 26);
 		add(totalTextField);
 
-		lblError = new JLabel("");
-		lblError.setForeground(Color.RED);
-		lblError.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblError.setBounds(165, 411, 387, 26);
-		add(lblError);
+		lblWarning = new JLabel("");
+		lblWarning.setForeground(Color.RED);
+		lblWarning.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblWarning.setBounds(165, 411, 387, 26);
+		add(lblWarning);
 
 		JButton btnRentNow = new JButton("Rent Now");
 		btnRentNow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				createNewRental();
+				try {
+					checkDateFields();
+					createNewRental();
+					lblWarning.setText("Rental done!");
+				} catch (ParseException ex) {
+					lblWarning.setText("Please Enter a valid date!");
+					ex.printStackTrace();
+				} catch (Exception ex) {
+					lblWarning.setText(ex.getMessage());
+					ex.printStackTrace();
+				}
 			}
 		});
-		btnRentNow.setBounds(569, 378, 116, 31);
+		btnRentNow.setBounds(558, 378, 127, 31);
 		add(btnRentNow);
 
 		JLabel dateFormatTextField = new JLabel("(dd/MM/yyyy)");
 		dateFormatTextField.setFont(new Font("Arial", Font.PLAIN, 12));
 		dateFormatTextField.setBounds(332, 76, 90, 42);
 		add(dateFormatTextField);
-
-		carListTable = new JTable();
-		carListTable.setCellSelectionEnabled(true);
-		carListTable.setColumnSelectionAllowed(true);
-		carListTable.setBounds(32, 328, 645, -203);
-		add(carListTable);
 
 		categoryComboBox = new JComboBox<Category>();
 		categoryComboBox.setEnabled(false);
@@ -211,10 +226,9 @@ public class RentalPane extends JPanel {
 		chckbxCategory.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent event) {
-				if(event.getStateChange()==ItemEvent.SELECTED) {					
+				if (event.getStateChange() == ItemEvent.SELECTED) {
 					categoryComboBox.setEnabled(true);
-				}
-				else {
+				} else {
 					categoryComboBox.setEnabled(true);
 				}
 			}
@@ -227,27 +241,71 @@ public class RentalPane extends JPanel {
 		chckbxSpecifications.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent event) {
-				if(event.getStateChange()==ItemEvent.SELECTED) {					
+				if (event.getStateChange() == ItemEvent.SELECTED) {
 					specificationComboBox.setEnabled(true);
-				}
-				else {
+				} else {
 					specificationComboBox.setEnabled(true);
 				}
 			}
 		});
 
 		JButton btnFilter = new JButton("Filter");
-		btnFilter.setBounds(397, 341, 288, 32);
+		btnFilter.setBounds(588, 341, 97, 32);
 		add(btnFilter);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(32, 116, 653, 215);
+		add(scrollPane);
+
+		tableAvailableCars = new JTable();
+		tableAvailableCars.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		tableAvailableCars.setEnabled(false);
+		scrollPane.setViewportView(tableAvailableCars);
+		tableModel = new DefaultTableModel();
+		tableModel.addColumn("Car Id");
+		tableModel.addColumn("Daily Rate");
+		tableModel.addColumn("Brand");
+		tableModel.addColumn("Name");
+		tableModel.addColumn("Plate");
+		tableModel.addColumn("Category");
+		tableModel.addColumn("Color");
+		tableModel.addColumn("Specifications");
+		tableAvailableCars.setModel(tableModel);
+
+		JLabel lblCarId = new JLabel("Car ID:");
+		lblCarId.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblCarId.setBounds(382, 336, 90, 42);
+		add(lblCarId);
+
+		carIdTextField = new JTextField();
+		carIdTextField.setColumns(10);
+		carIdTextField.setBounds(423, 342, 58, 31);
+		add(carIdTextField);
+
+		JButton btnSearchCar = new JButton("Search");
+		btnSearchCar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				searchCar();
+			}
+		});
+		btnSearchCar.setBounds(492, 342, 86, 31);
+		add(btnSearchCar);
 
 		btnFilter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					checkDateFields();
+					checkBoxes();
 					searchCarsList();
+					lblWarning.setText("");
+				} catch (ParseException ex) {
+					lblWarning.setText("Please Enter a valid date!");
+					ex.printStackTrace();
 				} catch (Exception ex) {
-					lblError.setText(ex.getMessage());
+					lblWarning.setText(ex.getMessage());
+
+					ex.printStackTrace();
 				}
 			}
 		});
@@ -256,9 +314,42 @@ public class RentalPane extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				goToHomePage();
+				clearFields();
 			}
 		});
+	}
 
+	private void searchCar() {
+		try {
+			Car car = carService.findById(Long.parseLong(carIdTextField.getText()));
+
+			if (car == null) {
+				lblWarning.setText("ID not found!");
+			} else {
+				lblWarning.setText("");
+				Date formattedStartDate = new Date(format.parse(startDateTextField.getText()).getTime());
+				Date formattedEndDate = new Date(format.parse(endDateTextField.getText()).getTime());
+				long diff = formattedEndDate.getTime() - formattedStartDate.getTime();
+				float days = (diff / (1000 * 60 * 60 * 24));
+				totalTextField.setText("$ " + days * car.getDailyRate());
+			}
+		} catch (Exception ex) {
+			totalTextField.setText("$ ");
+			lblWarning.setText("Pleas enter a valid ID!");
+		}
+	}
+
+	private void clearFields() {
+		carIdTextField.setText("");
+		lblWarning.setText("");
+		endDateTextField.setText("");
+		startDateTextField.setText("");
+		categoryComboBox.setSelectedIndex(0);
+		specificationComboBox.setSelectedIndex(0);
+		driverLicenseTextField.setText("");
+		totalTextField.setText("$ ");
+		tableAvailableCars.setModel(new DefaultTableModel());
+		customersTextField.setText("");
 	}
 
 	private void searchByLicense(long license) {
@@ -270,11 +361,11 @@ public class RentalPane extends JPanel {
 	}
 
 	public void populateComboBox() {
-		specificationComboBox.removeAll();
-		categoryComboBox.removeAll();
+		specificationComboBox.removeAllItems();
+		categoryComboBox.removeAllItems();
 		categoryComboBox.addItem(null);
 		specificationComboBox.addItem(null);
-		
+
 		for (Specification specification : specificationService.findAll()) {
 			specificationComboBox.addItem(specification);
 		}
@@ -285,36 +376,87 @@ public class RentalPane extends JPanel {
 	}
 
 	private void searchCarsList() throws Exception {
+		DefaultTableModel newTableModel = new DefaultTableModel();
+		newTableModel.addColumn("Car Id");
+		newTableModel.addColumn("Daily Rate");
+		newTableModel.addColumn("Brand");
+		newTableModel.addColumn("Name");
+		newTableModel.addColumn("Plate");
+		newTableModel.addColumn("Category");
+		newTableModel.addColumn("Color");
+		newTableModel.addColumn("Specifications");
+
 		Date formattedStartDate = new Date(format.parse(startDateTextField.getText()).getTime());
 		Date formattedEndDate = new Date(format.parse(endDateTextField.getText()).getTime());
+
 		if (chckbxCategory.isSelected() && chckbxSpecifications.isSelected()) {
-			populateTable( carService.findAvailable(formattedStartDate, formattedEndDate) );
+			populateTable(newTableModel,
+					rentalService.findAvailable(formattedStartDate, formattedEndDate,
+							(Category) categoryComboBox.getSelectedItem(),
+							(Specification) specificationComboBox.getSelectedItem()));
 		} else if (chckbxCategory.isSelected() && !chckbxSpecifications.isSelected()) {
-			populateTable( carService.findAvailable(formattedStartDate, formattedEndDate) );
+			populateTable(newTableModel, rentalService.findAvailable(formattedStartDate, formattedEndDate,
+					(Category) categoryComboBox.getSelectedItem()));
 		} else if (chckbxSpecifications.isSelected() && !chckbxCategory.isSelected()) {
-			populateTable( carService.findAvailable(formattedStartDate, formattedEndDate) );
+			populateTable(newTableModel, rentalService.findAvailable(formattedStartDate, formattedEndDate,
+					(Specification) specificationComboBox.getSelectedItem()));
 		} else if (!chckbxSpecifications.isSelected() && !chckbxCategory.isSelected()) {
-			populateTable( carService.findAvailable(formattedStartDate, formattedEndDate ) );
+			populateTable(newTableModel, rentalService.findAvailable(formattedStartDate, formattedEndDate));
+		}
+
+		tableAvailableCars.setModel(newTableModel);
+	}
+
+	private void checkBoxes() throws CredentialsException {
+		if (chckbxCategory.isSelected() && categoryComboBox.getSelectedItem() == null)
+			throw new CredentialsException("Please Enter a valid Category");
+		if (chckbxSpecifications.isSelected() && specificationComboBox.getSelectedItem() == null)
+			throw new CredentialsException("Please Enter a valid Specification");
+	}
+
+	private void createNewRental() throws Exception {
+		Rental rental = new Rental();
+
+		Car car = carService.findById(Long.parseLong(carIdTextField.getText()));
+		if (car == null && customer == null)
+			throw new IllegalArgumentException("Please select a valid car and customer");
+
+		rental.setCar(car);
+		rental.setCustomer(customer);
+		rental.setStartDate(new Date(format.parse(startDateTextField.getText()).getTime()));
+		rental.setEndDate(new Date(format.parse(endDateTextField.getText()).getTime()));
+		rental.setTotal(Double.parseDouble(totalTextField.getText().replace("$", "")));
+
+		rentalService.createRental(rental);
+	}
+
+	private void populateTable(DefaultTableModel model, List<Car> cars) {
+		for (Car car : cars) {
+			String specifications = getCarSpecifications(car);
+
+			model.addRow(new Object[] { car.getId(), car.getDailyRate(), car.getBrand(), car.getName(),
+					car.getLicensePlate(), car.getCategory(), car.getColor(), specifications });
 		}
 	}
 
-	private void createNewRental() {
-		Rental rental = new Rental();
-		rentalService.createRental(rental);
-	}
-	
-	private void populateTable(List<Car> cars) {
+	private String getCarSpecifications(Car car) {
+		String specifications = "";
 
+		for (CarSpecification carSpecification : carSpecificationService.getCarSpecifications(car)) {
+			specifications += specifications.isEmpty() ? carSpecification.getSpecification().getName()
+					: ", " + carSpecification.getSpecification().getName();
+		}
+
+		return specifications;
 	}
 
-	private void checkDateFields() {
+	@SuppressWarnings("unused")
+	private void checkDateFields() throws ParseException {
 		try {
 			Date formattedStartDate = new Date(format.parse(startDateTextField.getText()).getTime());
-			System.out.println(formattedStartDate);
 			Date formattedEndDate = new Date(format.parse(endDateTextField.getText()).getTime());
-			System.out.println(formattedEndDate);
 		} catch (Exception ex) {
-			throw new CredentialsException("Enter a valid date! dd/MM/yyyy");
+			throw new ParseException("Enter a valid date! dd/MM/yyyy", 0);
 		}
 	}
 

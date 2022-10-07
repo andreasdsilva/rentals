@@ -29,4 +29,8 @@ public class CarSpecificationService {
 		public void createCarSpecification(Car car, Specification specification) {			
 			carSpecificationRepository.save(new CarSpecification(car, specification));
 		}
+
+		public List<CarSpecification> getCarSpecifications(Car car) {
+			return carSpecificationRepository.findByCar(car);
+		}
 }

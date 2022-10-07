@@ -206,11 +206,11 @@ public class CarRegisterPane extends JPanel {
 	}
 
 	public void populateComboBox() {
-		specificationComboBox.removeAll();
+		specificationComboBox.removeAllItems();
 		specificationComboBox.addItem(null);
-		categoriesComboBox.removeAll();
+		categoriesComboBox.removeAllItems();
 		categoriesComboBox.addItem(null);
-		brandComboBox.removeAll();
+		brandComboBox.removeAllItems();
 		brandComboBox.addItem(null);
 		
 		for (Specification specification : specificationService.findAll()) {
