@@ -27,12 +27,7 @@ public class BrandService {
 	}
 
 	public Brand findByName(String name) {
-		for(Brand brand : findAll()) {
-			if( brand.getName().equals(name)) {
-				return brand;
-			}
-		}
-		return null;
+		return brandRepository.findByName(name);
 	}
 
 	public void createBrand(Brand brand) {

@@ -37,8 +37,7 @@ public class CustomerRegisterPane extends JPanel {
 	private JFormattedTextField birthDateTextField;
 	private JFormattedTextField phoneTextField;
 
-	DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-	DateFormat sqlFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
 	public CustomerRegisterPane(MainFrame frame) {
 		setMain((MainFrame) frame);
@@ -176,6 +175,7 @@ public class CustomerRegisterPane extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				goToHomePage();
+				clearFields();
 			}
 		});
 
@@ -213,15 +213,17 @@ public class CustomerRegisterPane extends JPanel {
 			throw new CredentialsException("Enter a valid driver license!");
 		}
 	}
-
-	private void goToHomePage() {
+	
+	private void clearFields() {
 		customerWarningLabel.setText("");
 		nameTextField.setText("");
 		emailTextField.setText("");
 		birthDateTextField.setText("");
 		addressTextField.setText("");
 		phoneTextField.setText("");
-		main.getHomPane();
+	}
+
+	private void goToHomePage() {
 		main.setPanel(main.getHomPane().getRootPanel());
 	}
 

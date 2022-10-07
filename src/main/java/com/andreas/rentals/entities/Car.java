@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -29,14 +29,14 @@ public class Car implements Serializable {
 	@Column(name = "license_plate")
 	private String licensePlate;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "brand_id")
 	private Brand brand;
 
 	@Column(name = "daily_rate")
 	private double dailyRate;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
 

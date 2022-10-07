@@ -21,15 +21,15 @@ public class Customer implements Serializable {
 	private Long id;
 
 	private String name;
-	
+
 	@Column(name = "birth_date")
 	private Date birthDate;
 	private String email;
-	
+
 	@Column(name = "driver_license")
 	private Integer driverLicense;
 	private String address;
-	
+
 	@Column(name = "phone_number")
 	private Integer phoneNumber;
 
@@ -142,6 +142,6 @@ public class Customer implements Serializable {
 
 	@Override
 	public String toString() {
-		return name + " - " + driverLicense;
+		return id + " - " + name + ", " + driverLicense;
 	}
 }

@@ -206,6 +206,13 @@ public class CarRegisterPane extends JPanel {
 	}
 
 	public void populateComboBox() {
+		specificationComboBox.removeAll();
+		specificationComboBox.addItem(null);
+		categoriesComboBox.removeAll();
+		categoriesComboBox.addItem(null);
+		brandComboBox.removeAll();
+		brandComboBox.addItem(null);
+		
 		for (Specification specification : specificationService.findAll()) {
 			specificationComboBox.addItem(specification);
 		}
@@ -235,7 +242,7 @@ public class CarRegisterPane extends JPanel {
 		if (carService.findByLicense(licensPlateTextField.getText()) != null)
 			throw new CredentialsException("License plate already exists!");
 	}
-	
+
 	private void clearFields() {
 		brandComboBox.setSelectedIndex(0);
 		categoriesComboBox.setSelectedIndex(0);

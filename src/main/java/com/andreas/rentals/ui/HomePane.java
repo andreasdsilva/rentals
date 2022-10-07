@@ -53,6 +53,7 @@ public class HomePane extends JPanel {
 		JButton newRentalbtn = new JButton("Rent a Car");
 		newRentalbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				goToRentalPane();
 			}
 		});
 		newRentalbtn.setBounds(132, 141, 163, 50);
@@ -121,28 +122,29 @@ public class HomePane extends JPanel {
 		welcomeLabel.setText("Welcome, " + ApplicationContext.getInstance().getLoggedUser() + " !");
 	}
 
-	private void goToBrandRegister() {
-		main.getBrandRegisterPane();
+	private void goToBrandRegister() {		
 		main.setPanel(main.getBrandRegisterPane().getRootPanel());
 	}
 
-	private void goToSpecificationRegisterPane() {
-		main.getSpecificationRegisterPane();
+	private void goToSpecificationRegisterPane() {		
 		main.setPanel(main.getSpecificationRegisterPane().getRootPanel());
 	}
 
-	private void goToCategoryRegisterPane() {
-		main.getCategoryRegisterPane();
+	private void goToCategoryRegisterPane() {		
 		main.setPanel(main.getCategoryRegisterPane().getRootPanel());
 	}
 
 	private void goToCustomerRegisterPane() {
-		main.getCustomerRegisterPane();
 		main.setPanel(main.getCustomerRegisterPane().getRootPanel());
 	}
 
 	private void goToCarRegisterPane() {
 		main.getCarRegisterPane().populateComboBox();
 		main.setPanel(main.getCarRegisterPane().getRootPanel());
+	}
+	
+	private void goToRentalPane() {
+		main.getRentalPane().populateComboBox();
+		main.setPanel(main.getRentalPane().getRootPanel());
 	}
 }

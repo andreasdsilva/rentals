@@ -14,23 +14,24 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "car_specifications")
-public class CarSpecification implements Serializable{
+public class CarSpecification implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "car_id")
 	private Car car;
-	
+
 	@OneToOne
 	@JoinColumn(name = "specification_id")
 	private Specification specification;
-	
-	public CarSpecification() {}
-	
+
+	public CarSpecification() {
+	}
+
 	public CarSpecification(Car car, Specification specification) {
 		super();
 		this.car = car;
@@ -72,5 +73,5 @@ public class CarSpecification implements Serializable{
 			return false;
 		CarSpecification other = (CarSpecification) obj;
 		return Objects.equals(id, other.id);
-	}		
+	}
 }
