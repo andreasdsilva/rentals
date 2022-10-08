@@ -62,6 +62,7 @@ public class HomePane extends JPanel {
 		JButton btnConsultRental = new JButton("Consult Rental");
 		btnConsultRental.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				goToConsultRentalPane();
 			}
 		});
 		btnConsultRental.setBounds(132, 244, 163, 50);
@@ -146,5 +147,9 @@ public class HomePane extends JPanel {
 	private void goToRentalPane() {
 		main.getRentalPane().populateComboBox();
 		main.setPanel(main.getRentalPane().getRootPanel());
+	}
+	
+	private void goToConsultRentalPane() {
+		main.setPanel(main.getConsultRentalsPane().getRootPanel());
 	}
 }

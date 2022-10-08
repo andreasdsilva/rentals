@@ -19,6 +19,7 @@ public class MainFrame extends JFrame {
 	private final CustomerRegisterPane customerRegisterPane;
 	private final CarRegisterPane carRegisterPane;
 	private final RentalPane rentalPane;
+	private final ConsultRentalsPane consultRentalsPane;
 	
 	public MainFrame() throws Exception {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -31,6 +32,7 @@ public class MainFrame extends JFrame {
 		customerRegisterPane = new CustomerRegisterPane(this);
 		carRegisterPane = new CarRegisterPane(this);
 		rentalPane = new RentalPane(this);
+		consultRentalsPane = new ConsultRentalsPane(this);
 
 		this.setTitle("Rentals");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -86,6 +88,10 @@ public class MainFrame extends JFrame {
 	
 	public RentalPane getRentalPane() {
 		return rentalPane;
+	}
+	
+	public ConsultRentalsPane getConsultRentalsPane() {
+		return consultRentalsPane;
 	}
 	
 	public void init() {

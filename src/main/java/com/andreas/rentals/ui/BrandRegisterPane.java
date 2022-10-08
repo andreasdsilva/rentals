@@ -69,7 +69,7 @@ public class BrandRegisterPane extends JPanel {
 		add(btnNewButton);
 
 		JButton btnHomePage = new JButton("Home Page");
-		btnHomePage.setBounds(573, 0, 137, 31);
+		btnHomePage.setBounds(548, 11, 137, 31);
 		add(btnHomePage);
 
 		btnNewButton.addActionListener(new ActionListener() {

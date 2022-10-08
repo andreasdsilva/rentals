@@ -25,7 +25,6 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DateFormatter;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.andreas.rentals.entities.Car;
@@ -191,6 +190,7 @@ public class RentalPane extends JPanel {
 				try {
 					checkDateFields();
 					createNewRental();
+					clearFields();
 					lblWarning.setText("Rental done!");
 				} catch (ParseException ex) {
 					lblWarning.setText("Please Enter a valid date!");
@@ -249,7 +249,7 @@ public class RentalPane extends JPanel {
 			}
 		});
 
-		JButton btnFilter = new JButton("Filter");
+		JButton btnFilter = new JButton("Filter table");
 		btnFilter.setBounds(588, 341, 97, 32);
 		add(btnFilter);
 
@@ -282,7 +282,7 @@ public class RentalPane extends JPanel {
 		carIdTextField.setBounds(423, 342, 58, 31);
 		add(carIdTextField);
 
-		JButton btnSearchCar = new JButton("Search");
+		JButton btnSearchCar = new JButton("Select Car");
 		btnSearchCar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				searchCar();

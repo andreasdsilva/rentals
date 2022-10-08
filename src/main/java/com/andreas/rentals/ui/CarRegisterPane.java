@@ -93,7 +93,7 @@ public class CarRegisterPane extends JPanel {
 		add(registerCarBtn);
 
 		JButton btnHomePage = new JButton("Home Page");
-		btnHomePage.setBounds(573, 0, 137, 31);
+		btnHomePage.setBounds(548, 11, 137, 31);
 		add(btnHomePage);
 
 		JLabel specificationDescriptionLabel = new JLabel("Description:");
