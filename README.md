@@ -1,7 +1,7 @@
 # Introdução
 ## _Rentals_
 Rentals é um sistema desktop focado em locações de carro, podendo cadastrar desde a marca do carro e especificações até a locação em si.
-### Técnologias utilizadas
+### Principais Técnologias utilizadas
 - Java
 - Java SWING
 - Spring Boot
