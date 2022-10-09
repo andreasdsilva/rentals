@@ -38,6 +38,10 @@ public class RentalService {
 		Optional<Rental> obj = rentalRepository.findById(id);
 		return obj.get();
 	}
+	
+	public void deleteRental(Rental rental) {
+		rentalRepository.delete(rental);
+	}
 
 	public void createRental(Rental rental) {
 		rental.setCreatedAt(today);
