@@ -258,7 +258,7 @@ public class CarRegisterPane extends JPanel {
 	private void addSpecification(String specification) {
 		if (!specifications.contains(specification)) {
 			specifications += specifications.isEmpty() ? specification : ", " + specification;
-			specificationsListTextField.setText(specification);
+			specificationsListTextField.setText(specifications);
 		}
 	}
 

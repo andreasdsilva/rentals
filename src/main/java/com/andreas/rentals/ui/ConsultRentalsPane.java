@@ -6,8 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -17,10 +19,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DateFormatter;
 
 import org.springframework.stereotype.Component;
 
+import com.andreas.rentals.entities.Rental;
+import com.andreas.rentals.exceptions.CredentialsException;
 import com.andreas.rentals.services.RentalService;
 import com.andreas.rentals.util.BeanUtil;
 
@@ -33,7 +38,12 @@ public class ConsultRentalsPane extends JPanel {
 	private JTable tableRentals;
 	private JFormattedTextField startDateTextField;
 	private JFormattedTextField endDateTextField;
+	private JFormattedTextField updateEndDateTextField;
+	private JFormattedTextField updateStartDateTextField;
+	private JFormattedTextField rentalIdTextField;
+	private JLabel lblWarning;
 
+	Date today = new Date(Calendar.getInstance().getTime().getTime());
 	private DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 	DateFormatter df = new DateFormatter(format);
 
@@ -61,7 +71,7 @@ public class ConsultRentalsPane extends JPanel {
 
 		JButton btnHomePage = new JButton("Home Page");
 		btnHomePage.setBounds(548, 11, 137, 31);
-		add(btnHomePage);		
+		add(btnHomePage);
 
 		JLabel lblStartDate = new JLabel("Start:");
 		lblStartDate.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -70,7 +80,7 @@ public class ConsultRentalsPane extends JPanel {
 
 		startDateTextField = new JFormattedTextField(df);
 		startDateTextField.setBounds(159, 83, 71, 26);
-		startDateTextField.setValue(new Date(Calendar.getInstance().getTime().getTime()));
+		startDateTextField.setValue(today);
 		add(startDateTextField);
 		startDateTextField.setColumns(10);
 
@@ -82,90 +92,182 @@ public class ConsultRentalsPane extends JPanel {
 		endDateTextField = new JFormattedTextField(df);
 		endDateTextField.setColumns(10);
 		endDateTextField.setBounds(280, 83, 78, 26);
-		endDateTextField.setValue(new Date(Calendar.getInstance().getTime().getTime()));
+		endDateTextField.setValue(today);
 		add(endDateTextField);
-		
+
 		JLabel dateFormatTextField = new JLabel("(dd/MM/yyyy)");
 		dateFormatTextField.setFont(new Font("Arial", Font.PLAIN, 12));
 		dateFormatTextField.setBounds(368, 75, 90, 42);
 		add(dateFormatTextField);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(30, 120, 655, 223);
 		add(scrollPane);
-		
+
 		tableRentals = new JTable();
 		scrollPane.setViewportView(tableRentals);
-		
-		JLabel lblWarning = new JLabel("");
+
+		lblWarning = new JLabel("");
+		lblWarning.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblWarning.setForeground(Color.RED);
 		lblWarning.setHorizontalAlignment(SwingConstants.CENTER);
-		lblWarning.setBounds(90, 421, 554, 31);
+		lblWarning.setBounds(87, 399, 554, 31);
 		add(lblWarning);
-		
+
 		JLabel lblConsultDates = new JLabel("Rental dates:");
 		lblConsultDates.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblConsultDates.setBounds(30, 75, 90, 42);
 		add(lblConsultDates);
-		
+
 		JButton btnFilterRentals = new JButton("Filter Rentals");
 		btnFilterRentals.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					filterRentalsByDate();
+				} catch (ParseException ex) {
+					lblWarning.setText("Please enter a valid date! (dd/MM/yyyy)");
+				}
 			}
 		});
 		btnFilterRentals.setBounds(548, 81, 137, 31);
 		add(btnFilterRentals);
-		
+
 		JLabel lblUpdateStart = new JLabel("Start:");
 		lblUpdateStart.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblUpdateStart.setBounds(227, 354, 90, 42);
 		add(lblUpdateStart);
-		
-		JFormattedTextField updateStartDateTextField = new JFormattedTextField((AbstractFormatter) null);
+
+		updateStartDateTextField = new JFormattedTextField((AbstractFormatter) null);
 		updateStartDateTextField.setColumns(10);
+		updateStartDateTextField.setValue(today);
 		updateStartDateTextField.setBounds(269, 362, 71, 26);
 		add(updateStartDateTextField);
-		
+
 		JLabel lblUpdateEnd = new JLabel("End:");
 		lblUpdateEnd.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblUpdateEnd.setBounds(346, 354, 90, 42);
 		add(lblUpdateEnd);
-		
-		JFormattedTextField updateEndDateTextField = new JFormattedTextField((AbstractFormatter) null);
+
+		updateEndDateTextField = new JFormattedTextField((AbstractFormatter) null);
 		updateEndDateTextField.setColumns(10);
+		updateEndDateTextField.setValue(today);
 		updateEndDateTextField.setBounds(380, 362, 78, 26);
 		add(updateEndDateTextField);
-		
+
 		JLabel dateFormatTextField_1 = new JLabel("(dd/MM/yyyy)");
 		dateFormatTextField_1.setFont(new Font("Arial", Font.PLAIN, 12));
 		dateFormatTextField_1.setBounds(469, 354, 90, 42);
 		add(dateFormatTextField_1);
-		
+
 		JLabel lblUpdateDates = new JLabel("Update dates:");
 		lblUpdateDates.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblUpdateDates.setBounds(140, 354, 81, 42);
 		add(lblUpdateDates);
-		
+
 		JButton btnUpdateRental = new JButton("Update Rental");
 		btnUpdateRental.setBounds(548, 360, 137, 31);
 		add(btnUpdateRental);
-		
-		JLabel lblUpdateEnd_1 = new JLabel("Id:");
-		lblUpdateEnd_1.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblUpdateEnd_1.setBounds(30, 354, 90, 42);
-		add(lblUpdateEnd_1);
-		
-		JFormattedTextField updateEndDateTextField_1 = new JFormattedTextField((Object) null);
-		updateEndDateTextField_1.setColumns(10);
-		updateEndDateTextField_1.setBounds(52, 362, 60, 26);
-		add(updateEndDateTextField_1);
+
+		btnUpdateRental.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Rental rental = rentalService.findById(Long.parseLong(rentalIdTextField.getText()));
+					if (rental == null)
+						throw new CredentialsException("Rental not found!");
+
+					if (canUpdate(rental)) {
+						updateRental(rental);
+						filterRentalsByDate();
+						lblWarning.setText("Rental updated!");
+						
+					} else {
+						lblWarning.setText("Rental must be before start to update!");
+					}
+				} catch (ParseException | NumberFormatException ex) {
+					lblWarning.setText("Please enter a valid date! (dd/MM/yyyy)");
+				} catch (Exception ex) {
+					lblWarning.setText(ex.getMessage());
+				}
+			}
+		});
+
+		JLabel lblRentalId = new JLabel("Id:");
+		lblRentalId.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblRentalId.setBounds(30, 354, 90, 42);
+		add(lblRentalId);
+
+		rentalIdTextField = new JFormattedTextField((Object) null);
+		rentalIdTextField.setColumns(10);
+		rentalIdTextField.setBounds(52, 362, 60, 26);
+		add(rentalIdTextField);
 
 		btnHomePage.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				goToHomePage();
+				clearFields();
 			}
 		});
+	}
+
+	private boolean canUpdate(Rental rental) {
+		return !rental.getStartDate().equals(today) || !rental.getEndDate().equals(today)
+				|| !rental.getEndDate().before(today)
+				|| !(rental.getStartDate().after(today) && rental.getEndDate().after(today));
+	}
+
+	private void updateRental(Rental rental) throws Exception {
+
+		Date formattedStartDate = new Date(format.parse(updateStartDateTextField.getText()).getTime());
+		Date formattedEndDate = new Date(format.parse(updateEndDateTextField.getText()).getTime());
+		long diff = formattedEndDate.getTime() - formattedStartDate.getTime();
+		float days = (diff / (1000 * 60 * 60 * 24));
+
+		rental.setStartDate(formattedStartDate);
+		rental.setEndDate(formattedEndDate);
+		rental.setTotal(days * rental.getCar().getDailyRate());
+
+		rentalService.updateRental(rental);
+	}
+
+	private void filterRentalsByDate() throws ParseException {
+		List<Rental> rentals = rentalService.findByDates(new Date(format.parse(startDateTextField.getText()).getTime()),
+				new Date(format.parse(endDateTextField.getText()).getTime()));
+		if (!rentals.isEmpty()) {
+			tableRentals.setModel(new DefaultTableModel());
+			
+			populateTable(rentals);
+			lblWarning.setText("");
+		} else {
+			lblWarning.setText("No rentals found for the specified dates!");
+		}
+	}
+
+	private void populateTable(List<Rental> rentals) {
+		DefaultTableModel newTableModel = new DefaultTableModel();
+		newTableModel.addColumn("Id");
+		newTableModel.addColumn("Customer");
+		newTableModel.addColumn("Car");
+		newTableModel.addColumn("Star Date");
+		newTableModel.addColumn("End Date");
+		newTableModel.addColumn("Total");
+
+		for (Rental rental : rentals) {
+			newTableModel.addRow(new Object[] { rental.getId(), rental.getCustomer(), rental.getCar(),
+					rental.getStartDate(), rental.getEndDate(), rental.getTotal() });
+		}
+
+		tableRentals.setModel(newTableModel);
+	}
+
+	private void clearFields() {
+		startDateTextField.setText("");
+		endDateTextField.setText("");
+		updateEndDateTextField.setText("");
+		updateStartDateTextField.setText("");
+		rentalIdTextField.setText("");
+		tableRentals.setModel(new DefaultTableModel());
 	}
 
 	private void goToHomePage() {

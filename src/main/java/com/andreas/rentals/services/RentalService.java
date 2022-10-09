@@ -1,6 +1,7 @@
 package com.andreas.rentals.services;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,8 @@ public class RentalService {
 	@Autowired
 	private CarSpecificationService carSpecificationService;
 
+	private Date today = new Date(Calendar.getInstance().getTime().getTime());
+
 	public List<Rental> findAll() {
 		return rentalRepository.findAll();
 	}
@@ -37,9 +40,27 @@ public class RentalService {
 	}
 
 	public void createRental(Rental rental) {
-		rental.setCreatedAt(new Date(Calendar.getInstance().getTime().getTime()));
-		rental.setUpdatedAt(new Date(Calendar.getInstance().getTime().getTime()));
+		rental.setCreatedAt(today);
+		rental.setUpdatedAt(today);
 		rentalRepository.save(rental);
+	}
+
+	public void updateRental(Rental rental) {
+		rental.setUpdatedAt(today);
+		rentalRepository.save(rental);
+	}
+
+	public List<Rental> findByDates(Date startDate, Date endDate) {
+
+		List<Rental> filteredRentals = new ArrayList<>();
+
+		for (Rental rental : findAll()) {
+			if (checkAvailable(startDate, endDate, rental.getStartDate(), rental.getEndDate())) {
+				filteredRentals.add(rental);
+			}
+		}
+
+		return filteredRentals;
 	}
 
 	public List<Car> findAvailable(Date startDate, Date endDate) {

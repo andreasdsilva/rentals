@@ -142,14 +142,12 @@ public class CustomerRegisterPane extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					System.out.println("Start");
 					String name = nameTextField.getText().toString();
 					String address = addressTextField.getText().toString();
 					String birthDate = birthDateTextField.getText().toString();
 					String driverLicense = driveLicenseTextField.getText().toString();
 
 					boolean canCreate = checkRequiredFields(name, address, birthDate, driverLicense);
-					System.out.println(canCreate + " can create");
 					if (canCreate) {
 						Customer customer = new Customer();
 						
@@ -166,7 +164,6 @@ public class CustomerRegisterPane extends JPanel {
 					customerWarningLabel.setText(ex.getMessage());
 				} catch (Exception ex) {
 					customerWarningLabel.setText(ex.getMessage());
-					System.out.println(ex.getMessage());
 				}
 			}
 		});
@@ -194,10 +191,10 @@ public class CustomerRegisterPane extends JPanel {
 		return false;
 	}
 
+	@SuppressWarnings("unused")
 	private boolean checkDate(String date) {
 		try {
 			Date formattedDate = new Date(format.parse(date).getTime());
-			System.out.println(formattedDate);
 			return true;
 		} catch (Exception ex) {
 			throw new CredentialsException("Enter a valid date! dd/MM/yyyy");
@@ -229,7 +226,6 @@ public class CustomerRegisterPane extends JPanel {
 
 	private void createNewCustomer(Customer customer) {
 		Customer existingCustomer = customerService.findByLicense(customer.getDriverLicense());
-		System.out.println(existingCustomer + " exe");
 		if (existingCustomer == null) {
 			customerService.createCustomer(customer);
 			customerWarningLabel.setText("Customer " + customer + " created!");
